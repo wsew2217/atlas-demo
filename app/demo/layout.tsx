@@ -1,4 +1,5 @@
 import { ClerkProvider } from '@clerk/nextjs'
+import { DemoBar } from '@/components/demo/DemoBar'
 
 const clerkAppearance = {
   variables: {
@@ -15,9 +16,16 @@ const clerkAppearance = {
 
 export const metadata = {
   title: 'Atlas Demo',
-  description: 'Atlas demo app — dummy data, Fraunces + IBM Plex stack.',
+  description: 'Atlas — operational software for apparel manufacturers. Demo with fake data.',
 }
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
-  return <ClerkProvider appearance={clerkAppearance}>{children}</ClerkProvider>
+  return (
+    <ClerkProvider appearance={clerkAppearance}>
+      <div className="flex min-h-screen flex-col">
+        <DemoBar />
+        {children}
+      </div>
+    </ClerkProvider>
+  )
 }
