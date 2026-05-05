@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getOrder, getBrand, getBatchesForOrder, activity } from '@/lib/demo-data'
+import { getOrder, getBrand, getBatchesForOrder, activity, getMessagesForOrder } from '@/lib/demo-data'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
+import { MessageThread } from '@/components/demo/MessageThread'
 
 export default async function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -12,6 +13,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
   const brand = getBrand(order.brandSlug)
   const orderBatches = getBatchesForOrder(order)
   const orderActivity = activity.filter((a) => a.orderId === order.id)
+  const orderMessages = getMessagesForOrder(order.id)
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -76,6 +78,13 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
               </tfoot>
             </table>
           </div>
+
+          <h2 className="mb-3 mt-10 text-lg font-semibold text-[var(--ink)]">Conversation</h2>
+          <p className="mb-4 text-xs text-[var(--muted)]">
+            Visible to {brand?.name} on their portal. System updates post automatically as
+            milestones change.
+          </p>
+          <MessageThread messages={orderMessages} viewer="manufacturer" brandColor={brand?.primary} />
 
           <h2 className="mb-3 mt-10 text-lg font-semibold text-[var(--ink)]">Production batches</h2>
           {orderBatches.length === 0 ? (
