@@ -3,14 +3,14 @@ import Link from 'next/link'
 export const metadata = {
   title: 'Kuhler — Operational software for apparel manufacturers',
   description:
-    'Atlas is the operational engine inside Kuhler. Built for the apparel teams running production from PO to packing list — across multiple factories, with branded portals for every customer.',
+    'Atlas is the operational engine inside Kuhler. POs, batches, factories, and branded customer portals on one platform.',
 }
 
 const capabilities = [
   {
     eyebrow: '01',
     title: 'Purchase orders, parsed.',
-    body: 'PDFs in. Structured POs out. Line items, ship-to, dates — all sortable, all queryable. No more re-keying email attachments at midnight.',
+    body: 'PDFs in. Structured POs out. Line items, ship-to, dates — sortable, queryable, exportable. No more re-keying email attachments at midnight.',
   },
   {
     eyebrow: '02',
@@ -26,8 +26,8 @@ const capabilities = [
 
 const personas = [
   {
-    title: 'Manufacturers coordinating multiple factories',
-    body: 'You run cut-and-sew across two, three, five plants — China, Cambodia, wherever. Atlas pulls every batch, every milestone, into one view that doesn’t lie.',
+    title: 'Manufacturers running multiple factories',
+    body: 'You run cut-and-sew across two, three, five plants. Atlas pulls every batch, every milestone, into one view that doesn’t lie.',
   },
   {
     title: 'Brokers giving every customer a branded portal',
@@ -35,7 +35,7 @@ const personas = [
   },
   {
     title: 'Teams that have outgrown email and spreadsheets',
-    body: 'You know the drill: 14 tabs, three different "PO trackers," a Slack channel of screenshots. Atlas replaces all of it with one source of truth.',
+    body: 'You know the drill — 14 tabs, three "PO trackers," a Slack channel of screenshots. Atlas replaces all of it with one source of truth.',
   },
 ]
 
@@ -48,78 +48,94 @@ const verticals = [
   'Custom team apparel',
 ]
 
-export default function MarketingPage() {
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <TopBar />
+    <>
+      {/* Hero */}
+      <section className="mx-auto w-full max-w-6xl px-6 pb-16 pt-12 md:pb-24 md:pt-20">
+        <div className="max-w-4xl">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+            Kuhler · Operational software
+          </p>
+          <h1 className="mt-4 text-5xl font-semibold leading-[1.04] tracking-tight text-[var(--ink)] md:text-6xl lg:text-7xl">
+            For the people running{' '}
+            <span className="italic text-[var(--accent)]">apparel production.</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)] md:text-xl">
+            Atlas pulls your POs, batches, factories, and customers into one platform —
+            and gives every customer their own branded portal under their own domain.
+            Without the spreadsheets. Without the email chains. Without the surprises.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <Link
+              href="/contact"
+              className="inline-flex items-center rounded-md bg-[var(--ink)] px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
+            >
+              Book a 15-min walkthrough
+            </Link>
+            <Link
+              href="https://demo.kuhler.com"
+              className="inline-flex items-center rounded-md border border-[var(--border)] bg-[var(--surface)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:bg-[var(--cream)]"
+            >
+              See the live demo →
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      <main className="flex-1">
-        {/* Hero */}
-        <section className="mx-auto w-full max-w-6xl px-6 pb-16 pt-16 md:pb-20 md:pt-24">
-          <div className="max-w-4xl">
+      {/* Trust band */}
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]/50">
+        <div className="mx-auto w-full max-w-6xl px-6 py-10">
+          <p className="text-center font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--muted)]">
+            Built for apparel teams shipping
+          </p>
+          <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {verticals.map((v) => (
+              <li
+                key={v}
+                className="font-display text-base italic text-[var(--ink)]/70 md:text-lg"
+              >
+                {v}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* See it in action — dashboard preview */}
+      <section className="mx-auto w-full max-w-6xl px-6 py-20">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
-              Kuhler · Operational software
+              See it in action
             </p>
-            <h1 className="mt-4 text-5xl font-semibold leading-[1.05] tracking-tight text-[var(--ink)] md:text-6xl lg:text-7xl">
-              For the people running{' '}
-              <span className="italic text-[var(--accent)]">apparel production.</span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)] md:text-xl">
-              Atlas pulls your POs, batches, factories, and customers into one platform —
-              and gives every customer their own branded portal under their own domain.
-              Without the spreadsheets. Without the email chains. Without the surprises.
+            <h2 className="mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
+              One platform. <span className="italic text-[var(--accent)]">Two perspectives.</span>
+            </h2>
+            <p className="mt-3 max-w-2xl text-[var(--muted)]">
+              The same data, rendered for whoever&rsquo;s looking. Manufacturer admins see
+              operations. Customers see their orders, branded as their company.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link
-                href="https://demo.kuhler.com"
-                className="inline-flex items-center rounded-md bg-[var(--ink)] px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
-              >
-                See the live demo →
-              </Link>
-              <Link
-                href="mailto:hello@kuhler.com?subject=Kuhler%20walkthrough"
-                className="inline-flex items-center rounded-md border border-[var(--border)] bg-[var(--surface)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:bg-[var(--cream)]"
-              >
-                Book a 15-min walkthrough
-              </Link>
-            </div>
           </div>
-        </section>
+          <Link
+            href="https://demo.kuhler.com"
+            className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)] hover:text-[var(--ink)]"
+          >
+            Open the live demo →
+          </Link>
+        </div>
+        <DashboardPreview />
+      </section>
 
-        {/* See it in action — dashboard preview */}
-        <section className="border-y border-[var(--border)] bg-[var(--surface)]/60">
-          <div className="mx-auto w-full max-w-6xl px-6 py-16 md:py-20">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
-                  See it in action
-                </p>
-                <h2 className="mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
-                  One platform. <span className="italic text-[var(--accent)]">Two perspectives.</span>
-                </h2>
-                <p className="mt-3 max-w-2xl text-[var(--muted)]">
-                  The same data, rendered for whoever’s looking. Manufacturer admins see operations.
-                  Customers see their orders, branded as their company.
-                </p>
-              </div>
-              <Link
-                href="https://demo.kuhler.com"
-                className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)] hover:text-[var(--ink)]"
-              >
-                Open the live demo →
-              </Link>
-            </div>
-            <DashboardPreview />
-          </div>
-        </section>
-
-        {/* Capabilities */}
-        <section className="mx-auto w-full max-w-6xl px-6 py-20">
+      {/* Capabilities */}
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
+        <div className="mx-auto w-full max-w-6xl px-6 py-20">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
             What it does
           </p>
           <h2 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
-            The operational stack for apparel, <span className="italic text-[var(--accent)]">on one platform.</span>
+            The operational stack for apparel,{' '}
+            <span className="italic text-[var(--accent)]">on one platform.</span>
           </h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {capabilities.map((c) => (
@@ -135,161 +151,103 @@ export default function MarketingPage() {
               </article>
             ))}
           </div>
-        </section>
-
-        {/* Who it's for */}
-        <section className="border-y border-[var(--border)] bg-[var(--surface)]/60">
-          <div className="mx-auto w-full max-w-6xl px-6 py-20">
-            <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
-              Who it’s for
-            </p>
-            <h2 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
-              If you’re running production, <span className="italic text-[var(--accent)]">we’re built for you.</span>
-            </h2>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {personas.map((p) => (
-                <article
-                  key={p.title}
-                  className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
-                >
-                  <h3 className="text-lg font-semibold leading-snug text-[var(--ink)]">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{p.body}</p>
-                </article>
-              ))}
-            </div>
+          <div className="mt-8">
+            <Link
+              href="/product"
+              className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)] hover:text-[var(--ink)]"
+            >
+              Read the full product story →
+            </Link>
           </div>
-        </section>
-
-        {/* How it works */}
-        <section className="mx-auto w-full max-w-6xl px-6 py-20">
-          <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-8 md:p-12">
-            <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
-              How it works
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
-              One platform. <span className="italic text-[var(--accent)]">Your customers’ brand.</span>
-            </h2>
-            <p className="mt-4 max-w-3xl text-[var(--muted)]">
-              Each of your customers brings their own domain. They CNAME it at us. We render
-              their portal under their identity. They get a clean, professional system without
-              the cost of building one. You get a single platform to operate across all of them.
-            </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              <Step n="1" title="They CNAME their domain.">
-                Two-minute job at their registrar. We auto-issue SSL.
-              </Step>
-              <Step n="2" title="We add a row in your tenants table.">
-                One INSERT. Their portal goes live, branded as them.
-              </Step>
-              <Step n="3" title="They self-serve from there.">
-                Status, milestones, updates — all visible without phoning you.
-              </Step>
-            </div>
-          </div>
-        </section>
-
-        {/* Built for — verticals */}
-        <section className="border-y border-[var(--border)] bg-[var(--surface)]/60">
-          <div className="mx-auto w-full max-w-6xl px-6 py-14">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--muted)]">
-              Built for apparel teams shipping
-            </p>
-            <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {verticals.map((v) => (
-                <li
-                  key={v}
-                  className="font-display text-lg italic text-[var(--ink)]/70"
-                >
-                  {v}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="mx-auto w-full max-w-6xl px-6 py-20">
-          <div className="rounded-lg border border-[var(--border)] bg-[var(--ink)] px-8 py-12 text-[var(--cream)] md:px-12 md:py-16">
-            <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--cream)]/60">
-              Ready when you are
-            </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
-              Stop being the <span className="italic text-[var(--accent)]">status hotline.</span>
-            </h2>
-            <p className="mt-4 max-w-2xl text-[var(--cream)]/70">
-              Click through the demo, or book 15 minutes and we’ll walk you through Atlas
-              against your actual workflow.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="https://demo.kuhler.com"
-                className="inline-flex items-center rounded-md bg-[var(--cream)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:opacity-90"
-              >
-                See the live demo →
-              </Link>
-              <Link
-                href="mailto:hello@kuhler.com?subject=Kuhler%20walkthrough"
-                className="inline-flex items-center rounded-md border border-[var(--cream)]/30 px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:bg-[var(--cream)]/10"
-              >
-                Book a 15-min walkthrough
-              </Link>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-xs text-[var(--muted)]">
-          <span>© Kuhler</span>
-          <span className="font-mono">hello@kuhler.com</span>
         </div>
-      </footer>
-    </div>
-  )
-}
+      </section>
 
-function TopBar() {
-  return (
-    <header className="border-b border-[var(--border)] bg-[var(--cream)]/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-display text-xl font-semibold tracking-tight text-[var(--ink)]">
-          Kuhler
-        </Link>
-        <nav className="flex items-center gap-2">
-          <Link
-            href="https://demo.kuhler.com"
-            className="rounded-md px-3 py-1.5 text-sm text-[var(--muted)] transition hover:text-[var(--ink)]"
-          >
-            Demo
-          </Link>
-          <Link
-            href="mailto:hello@kuhler.com?subject=Kuhler%20walkthrough"
-            className="rounded-md bg-[var(--ink)] px-3 py-1.5 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
-          >
-            Book a walkthrough
-          </Link>
-        </nav>
-      </div>
-    </header>
-  )
-}
+      {/* Who it's for */}
+      <section className="mx-auto w-full max-w-6xl px-6 py-20">
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+          Who it&rsquo;s for
+        </p>
+        <h2 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
+          If you&rsquo;re running production,{' '}
+          <span className="italic text-[var(--accent)]">we&rsquo;re built for you.</span>
+        </h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {personas.map((p) => (
+            <article
+              key={p.title}
+              className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
+            >
+              <h3 className="text-lg font-semibold leading-snug text-[var(--ink)]">
+                {p.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{p.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-function Step({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-md border border-[var(--border)] bg-[var(--cream)]/60 p-5">
-      <p className="font-mono text-xs text-[var(--accent)]">Step {n}</p>
-      <h4 className="mt-2 text-base font-semibold text-[var(--ink)]">{title}</h4>
-      <p className="mt-1 text-sm text-[var(--muted)]">{children}</p>
-    </div>
+      {/* Pricing teaser */}
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
+        <div className="mx-auto w-full max-w-6xl px-6 py-20">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+                Pricing
+              </p>
+              <h2 className="mt-2 max-w-2xl text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
+                Tailored to <span className="italic text-[var(--accent)]">your shape.</span>
+              </h2>
+              <p className="mt-3 max-w-xl text-[var(--muted)]">
+                Foundation, Operator, Platform — pick the tier that fits your operation. We quote
+                pricing on a 15-minute call so you don&rsquo;t pay for capacity you won&rsquo;t use.
+              </p>
+            </div>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center rounded-md border border-[var(--border)] bg-[var(--surface)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:bg-[var(--cream)]"
+            >
+              See pricing tiers →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="mx-auto w-full max-w-6xl px-6 py-20">
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--ink)] px-8 py-12 text-[var(--cream)] md:px-12 md:py-16">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--cream)]/60">
+            Ready when you are
+          </p>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
+            Stop being the <span className="italic text-[var(--accent)]">status hotline.</span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-[var(--cream)]/70">
+            Click through the live demo, or book a 15-minute walkthrough and we&rsquo;ll
+            show you Atlas against your actual workflow.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              href="/contact"
+              className="inline-flex items-center rounded-md bg-[var(--cream)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:opacity-90"
+            >
+              Book a walkthrough
+            </Link>
+            <Link
+              href="https://demo.kuhler.com"
+              className="inline-flex items-center rounded-md border border-[var(--cream)]/30 px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:bg-[var(--cream)]/10"
+            >
+              See the live demo →
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   )
 }
 
 function DashboardPreview() {
   return (
     <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--cream)] shadow-sm">
-      {/* Faux browser chrome */}
       <div className="flex items-center gap-3 border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
         <div className="flex gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-[var(--ink)]/15" />
@@ -299,20 +257,15 @@ function DashboardPreview() {
         <div className="flex-1 rounded-md border border-[var(--border)] bg-[var(--cream)] px-3 py-1 text-center font-mono text-[11px] text-[var(--muted)]">
           demo.kuhler.com
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
-          Live
-        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">Live</span>
       </div>
 
       <div className="grid gap-0 md:grid-cols-2">
-        {/* Manufacturer panel */}
         <div className="border-b border-[var(--border)] p-6 md:border-b-0 md:border-r">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)]">
             Manufacturer admin · /demo
           </p>
-          <h3 className="mt-2 font-display text-2xl font-semibold text-[var(--ink)]">
-            Dashboard
-          </h3>
+          <h3 className="mt-2 font-display text-2xl font-semibold text-[var(--ink)]">Dashboard</h3>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <PreviewKpi label="Open POs" value="4" />
             <PreviewKpi label="In production" value="3" />
@@ -346,7 +299,6 @@ function DashboardPreview() {
           </div>
         </div>
 
-        {/* Customer portal panel */}
         <div className="bg-[var(--surface)] p-6">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)]">
             Customer portal · /portal/summit
