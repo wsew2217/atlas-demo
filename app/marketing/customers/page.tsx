@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { listCaseStudies } from '@/lib/case-studies'
 
 export const metadata = {
   title: 'Customers',
@@ -44,6 +45,7 @@ const useCases = [
 ]
 
 export default function CustomersPage() {
+  const caseStudies = listCaseStudies()
   return (
     <>
       <section className="mx-auto w-full max-w-5xl px-6 pb-12 pt-16 md:pt-24">
@@ -116,6 +118,54 @@ export default function CustomersPage() {
           Composite stories from early-access conversations. Named case studies will publish as
           we go GA with each launch.
         </p>
+      </section>
+
+      {/* Case studies */}
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
+        <div className="mx-auto w-full max-w-6xl px-6 py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+                Case studies
+              </p>
+              <h2 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
+                The <span className="italic text-[var(--accent)]">deeper stories.</span>
+              </h2>
+            </div>
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
+              {caseStudies.length} composite studies
+            </p>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {caseStudies.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/customers/${c.slug}`}
+                className="lift flex flex-col rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
+              >
+                <span className="self-start rounded-full bg-[var(--accent)]/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">
+                  {c.tier} · {c.industry}
+                </span>
+                <h3 className="mt-4 font-display text-lg font-semibold leading-snug text-[var(--ink)]">
+                  {c.customer}
+                </h3>
+                <p className="mt-2 text-sm italic text-[var(--accent)]">{c.tagline}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[var(--muted)]">{c.excerpt}</p>
+                <div className="mt-5 border-t border-[var(--border)] pt-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)]">
+                    Outcome
+                  </p>
+                  <p className="mt-1 font-display text-base font-semibold text-[var(--ink)]">
+                    {c.outcome}
+                  </p>
+                </div>
+                <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
+                  Read the story →
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Testimonial */}

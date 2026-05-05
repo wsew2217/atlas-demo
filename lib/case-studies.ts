@@ -1,0 +1,106 @@
+export interface CaseStudyBlock {
+  type: 'paragraph' | 'heading' | 'pullquote' | 'list'
+  content: string | string[]
+}
+
+export interface CaseStudy {
+  slug: string
+  customer: string
+  customerType: string
+  tagline: string
+  excerpt: string
+  outcome: string
+  tier: 'Foundation' | 'Operator' | 'Scale' | 'Enterprise'
+  industry: string
+  body: CaseStudyBlock[]
+}
+
+export const caseStudies: CaseStudy[] = [
+  {
+    slug: 'apparel-broker-onboarding-portals-fast',
+    customer: 'Mid-size apparel broker',
+    customerType: 'Apparel broker',
+    tagline: 'From spreadsheets to six branded portals in six weeks.',
+    excerpt:
+      'A broker serving six brands consolidated three tracking systems into Atlas, gave each brand its own portal under their own domain, and cut weekly status calls by 80%.',
+    outcome: '6 branded portals · 80% fewer status calls',
+    tier: 'Operator',
+    industry: 'Performance & athletic apparel',
+    body: [
+      { type: 'heading', content: 'The situation' },
+      { type: 'paragraph', content: 'Before Atlas, this broker tracked production across three different systems: an Excel sheet for one big brand, a shared Google Doc for two mid-tier brands, and a homegrown PHP app for the rest. The principal spent two hours every Monday compiling a weekly status update by hand.' },
+      { type: 'paragraph', content: 'Each brand wanted a portal. None of them wanted to use the broker&rsquo;s "ManufacturerCo Tracker" — they wanted something that felt like their own.' },
+      { type: 'heading', content: 'What we did' },
+      { type: 'list', content: [
+        'Migrated the existing three trackers into a single Atlas tenant',
+        'Stood up six branded portals — one per brand — each under the brand&rsquo;s own domain',
+        'Trained two of the broker&rsquo;s team on the operator side over two afternoons',
+        'Trained one champion at each customer over a 30-minute call',
+      ]},
+      { type: 'pullquote', content: 'Atlas replaced 14 Outlook tabs and a shared spreadsheet. The portal piece is the hook for them — but the operator side is the hook for us.' },
+      { type: 'heading', content: 'The outcome' },
+      { type: 'paragraph', content: 'Six weeks after kickoff, every brand had a live portal under their own domain. The principal&rsquo;s Monday status compilation went from two hours to fifteen minutes (export from Atlas, paste into the email template). Status pings from buyers dropped roughly 80% — they self-serve now.' },
+      { type: 'paragraph', content: 'The broker won two new brand customers in the following quarter, citing the branded portal as a differentiator on the sales pitch.' },
+    ],
+  },
+  {
+    slug: 'manufacturer-multi-country-consolidation',
+    customer: 'Multi-country apparel manufacturer',
+    customerType: 'Cut-and-sew manufacturer',
+    tagline: 'One platform across two countries, three factories.',
+    excerpt:
+      'A manufacturer running cut-and-sew in China and Cambodia consolidated three factory tracking systems into Atlas, with mobile-friendly UX for factory users.',
+    outcome: '3 factories · 1 platform · mobile factory UX',
+    tier: 'Scale',
+    industry: 'Cut-and-sew apparel',
+    body: [
+      { type: 'heading', content: 'The situation' },
+      { type: 'paragraph', content: 'Three factories. Two countries. Three different tracking systems. The operations director spent every morning chasing status updates across WhatsApp, WeChat, and a custom-built dashboard that nobody on the factory floor used because it was built for desktops.' },
+      { type: 'paragraph', content: 'Buyers wanted live status. Factories wanted a way to log milestones from the floor without going back to a desk. Operations wanted one screen instead of three.' },
+      { type: 'heading', content: 'What we did' },
+      { type: 'list', content: [
+        'Migrated all three factory trackers into one Atlas tenant',
+        'Built mobile-first factory user accounts so operators could mark milestones from their phones on the floor',
+        'Connected the operations dashboard to all three factories with consolidated KPIs',
+        'Set up automated buyer notifications when milestones complete',
+      ]},
+      { type: 'pullquote', content: 'My factory users mark a milestone done from the floor. The buyer&rsquo;s portal updates in seconds. I never see the email anymore.' },
+      { type: 'heading', content: 'The outcome' },
+      { type: 'paragraph', content: 'Within the first month, the operations director&rsquo;s morning status routine dropped from two hours to fifteen minutes. Factory users adopted the mobile interface immediately — measured by the number of milestones marked complete from mobile devices, which hit 92% by week three.' },
+      { type: 'paragraph', content: 'Customer status pings dropped by approximately 70%. The remaining pings tend to be about complex changes (rerouting, expediting) that aren&rsquo;t about basic status — exactly the conversations the operations team should be having.' },
+    ],
+  },
+  {
+    slug: 'workwear-supplier-pdf-import',
+    customer: 'Workwear and uniforms supplier',
+    customerType: 'Workwear supplier',
+    tagline: 'POs out of email, POs into a system.',
+    excerpt:
+      'A workwear supplier processing 200+ POs per quarter automated PDF intake with Atlas, eliminating manual re-keying and the errors that came with it.',
+    outcome: '200 POs/quarter · zero manual re-keying',
+    tier: 'Operator',
+    industry: 'Workwear and uniforms',
+    body: [
+      { type: 'heading', content: 'The situation' },
+      { type: 'paragraph', content: 'School districts. Athletic programs. Corporate uniform programs. Each one sent POs as PDF attachments in 12 different formats. The intake team spent four hours per day re-keying line items into the production system. Errors at the line-item level cost real money — wrong sizes, wrong quantities, wrong colors.' },
+      { type: 'heading', content: 'What we did' },
+      { type: 'list', content: [
+        'Wired Atlas&rsquo;s PDF parsing to the company&rsquo;s shared inbox',
+        'Built customer-specific extraction rules for the top 12 PO formats',
+        'Set up a review queue where the intake team verifies extraction before pushing to production',
+        'Connected the verified POs to the existing production scheduling system via API',
+      ]},
+      { type: 'pullquote', content: 'The intake team became reviewers instead of typists. Same headcount, four times the throughput.' },
+      { type: 'heading', content: 'The outcome' },
+      { type: 'paragraph', content: 'Manual re-keying went to zero on the top 12 formats, which represented 87% of inbound volume. Line-item error rate dropped from approximately 4% to under 0.5% on extracted POs. The intake team scaled from handling 50 POs per quarter to handling 200+ without adding headcount.' },
+    ],
+  },
+]
+
+export function getCaseStudy(slug: string): CaseStudy | undefined {
+  return caseStudies.find((c) => c.slug === slug)
+}
+
+export function listCaseStudies(): CaseStudy[] {
+  return caseStudies
+}

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { AnimatedDashboardPreview } from '@/components/marketing/AnimatedDashboardPreview'
 
 export const metadata = {
   title: 'Kuhler — Operational software for apparel manufacturers',
@@ -124,7 +125,7 @@ export default function HomePage() {
             Open the live demo →
           </Link>
         </div>
-        <DashboardPreview />
+        <AnimatedDashboardPreview />
       </section>
 
       {/* Capabilities */}
