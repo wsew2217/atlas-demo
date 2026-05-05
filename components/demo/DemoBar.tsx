@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { resetDemoAction } from '@/app/demo/_actions/reset-demo'
 
 const links = [
   { href: '/demo',                   label: 'Manufacturer admin' },
@@ -24,7 +25,7 @@ export function DemoBar() {
         <span className="font-mono uppercase tracking-[0.22em] text-[var(--cream)]/60">
           Demo · view as
         </span>
-        <nav className="flex flex-wrap gap-1">
+        <nav className="flex flex-wrap items-center gap-1">
           {links.map((l) => {
             const active = l.href === activeHref
             return (
@@ -41,6 +42,16 @@ export function DemoBar() {
               </Link>
             )
           })}
+          <span aria-hidden className="mx-1 text-[var(--cream)]/30">·</span>
+          <form action={resetDemoAction}>
+            <button
+              type="submit"
+              className="rounded px-2.5 py-1 font-mono text-[var(--cream)]/60 transition hover:bg-[var(--cream)]/10 hover:text-[var(--cream)]"
+              title="Wipe your replies and milestone advances; reset the demo"
+            >
+              Reset
+            </button>
+          </form>
         </nav>
       </div>
     </div>
