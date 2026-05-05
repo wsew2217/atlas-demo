@@ -8,9 +8,9 @@ import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { AdvanceMilestoneButton } from '@/components/demo/AdvanceMilestoneButton'
 
-const FACTORY_QUERY = 'Suzhou'
-const FACTORY_NAME = 'Suzhou Plant 2'
-const USER_NAME = 'Cici Yuan'
+const FACTORY_QUERY = 'Plant A'
+const FACTORY_NAME = 'Plant A · China'
+const USER_NAME = 'Lin Wei'
 
 export default async function FactoryDashboard() {
   const fixtureBatches = getBatchesForFactory(FACTORY_QUERY)

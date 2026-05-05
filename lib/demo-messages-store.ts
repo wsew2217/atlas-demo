@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import type { Message } from './demo-data'
 
-const COOKIE = 'demo-messages'
+const COOKIE = 'demo-messages-v2'
 const MAX_MESSAGES = 50
 
 export async function getCustomMessages(): Promise<Message[]> {

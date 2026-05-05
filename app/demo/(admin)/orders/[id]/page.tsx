@@ -88,7 +88,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
             milestones change.
           </p>
           <MessageThread messages={orderMessages} viewer="manufacturer" brandColor={brand?.primary} />
-          <ReplyForm orderId={order.id} authorRole="manufacturer" authorName="Robert" />
+          <ReplyForm orderId={order.id} authorRole="manufacturer" authorName="Carter Webb" />
 
           <h2 className="mb-3 mt-10 text-lg font-semibold text-[var(--ink)]">Production batches</h2>
           {orderBatches.length === 0 ? (

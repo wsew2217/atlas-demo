@@ -88,7 +88,7 @@ export const batches: Batch[] = [
   {
     id: 'batch-001',
     code: 'B-2417-A',
-    factory: 'Suzhou Plant 2 · China',
+    factory: 'Plant A · China',
     units: 2400,
     milestones: [
       { id: 'm1', label: 'Materials sourced',   state: 'done',        date: '2026-04-22' },
@@ -101,7 +101,7 @@ export const batches: Batch[] = [
   {
     id: 'batch-002',
     code: 'B-2418',
-    factory: 'Phnom Penh Plant 1 · Cambodia',
+    factory: 'Plant B · Cambodia',
     units: 1200,
     milestones: [
       { id: 'm1', label: 'Materials sourced',   state: 'done',        date: '2026-04-15' },
@@ -114,7 +114,7 @@ export const batches: Batch[] = [
   {
     id: 'batch-003',
     code: 'B-2421',
-    factory: 'Suzhou Plant 2 · China',
+    factory: 'Plant A · China',
     units: 850,
     milestones: [
       { id: 'm1', label: 'Materials sourced',   state: 'done',         date: '2026-05-01' },
@@ -127,7 +127,7 @@ export const batches: Batch[] = [
   {
     id: 'batch-004',
     code: 'B-2402',
-    factory: 'Phnom Penh Plant 1 · Cambodia',
+    factory: 'Plant B · Cambodia',
     units: 3200,
     milestones: [
       { id: 'm1', label: 'Materials sourced',   state: 'done', date: '2026-02-10' },
@@ -221,37 +221,37 @@ export const orders: Order[] = [
 ]
 
 export const activity: ActivityEvent[] = [
-  { id: 'a-001', at: '2026-05-05T09:42:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2417-A reached production midpoint at Suzhou Plant 2.', brandSlug: 'summit',   orderId: 'ord-001' },
-  { id: 'a-002', at: '2026-05-05T08:10:00Z', actor: 'Cici Yuan',  isSystem: false, text: 'Uploaded inline QC photos for batch B-2418.',                     brandSlug: 'summit',   orderId: 'ord-002' },
+  { id: 'a-001', at: '2026-05-05T09:42:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2417-A reached production midpoint at Plant A.', brandSlug: 'summit',   orderId: 'ord-001' },
+  { id: 'a-002', at: '2026-05-05T08:10:00Z', actor: 'Lin Wei',  isSystem: false, text: 'Uploaded inline QC photos for batch B-2418.',                     brandSlug: 'summit',   orderId: 'ord-002' },
   { id: 'a-003', at: '2026-05-04T16:32:00Z', actor: 'system',     isSystem: true,  text: 'PO-2425 received from Meridian Apparel — 1,800 units.',           brandSlug: 'meridian', orderId: 'ord-004' },
   { id: 'a-004', at: '2026-05-04T11:15:00Z', actor: 'Mira Chen',  isSystem: false, text: 'Approved sample fit on PO-2417 hoodies.',                          brandSlug: 'summit',   orderId: 'ord-001' },
-  { id: 'a-005', at: '2026-05-04T09:20:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2421 entered cut & sew at Suzhou Plant 2.',                brandSlug: 'meridian', orderId: 'ord-003' },
-  { id: 'a-006', at: '2026-05-03T14:48:00Z', actor: 'Peter',      isSystem: false, text: 'Confirmed factory allocation for PO-2425 — assigning Phnom Penh.', brandSlug: 'meridian', orderId: 'ord-004' },
-  { id: 'a-007', at: '2026-03-22T18:00:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2402 shipped from Phnom Penh — 3,200 units.',              brandSlug: 'summit',   orderId: 'ord-005' },
+  { id: 'a-005', at: '2026-05-04T09:20:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2421 entered cut & sew at Plant A.',                brandSlug: 'meridian', orderId: 'ord-003' },
+  { id: 'a-006', at: '2026-05-03T14:48:00Z', actor: 'Theo Marsh',      isSystem: false, text: 'Confirmed factory allocation for PO-2425 — assigning Plant B.', brandSlug: 'meridian', orderId: 'ord-004' },
+  { id: 'a-007', at: '2026-03-22T18:00:00Z', actor: 'system',     isSystem: true,  text: 'Batch B-2402 shipped from Plant B — 3,200 units.',              brandSlug: 'summit',   orderId: 'ord-005' },
 ]
 
 export const messages: Message[] = [
   // PO-2417 — Summit hoodies
-  { id: 'msg-001', orderId: 'ord-001', at: '2026-04-22T14:10:00Z', authorRole: 'system',       authorName: 'system',     body: 'Materials sourced for batch B-2417-A at Suzhou Plant 2.' },
-  { id: 'msg-002', orderId: 'ord-001', at: '2026-04-23T09:02:00Z', authorRole: 'manufacturer', authorName: 'Robert',     body: 'Materials in early — moving cut start up by ~24h. Heads up on slight color shift in the navy lot, sample en route.' },
+  { id: 'msg-001', orderId: 'ord-001', at: '2026-04-22T14:10:00Z', authorRole: 'system',       authorName: 'system',     body: 'Materials sourced for batch B-2417-A at Plant A.' },
+  { id: 'msg-002', orderId: 'ord-001', at: '2026-04-23T09:02:00Z', authorRole: 'manufacturer', authorName: 'Carter Webb',     body: 'Materials in early — moving cut start up by ~24h. Heads up on slight color shift in the navy lot, sample en route.' },
   { id: 'msg-003', orderId: 'ord-001', at: '2026-04-23T16:48:00Z', authorRole: 'brand',        authorName: 'Mira Chen',  body: 'Thanks for the early call. Can we get a sample photo when the first 50 are off the line?' },
-  { id: 'msg-004', orderId: 'ord-001', at: '2026-04-24T07:15:00Z', authorRole: 'manufacturer', authorName: 'Cici Yuan',  body: 'Will do. Photos posted by EOD tomorrow.' },
+  { id: 'msg-004', orderId: 'ord-001', at: '2026-04-24T07:15:00Z', authorRole: 'manufacturer', authorName: 'Lin Wei',  body: 'Will do. Photos posted by EOD tomorrow.' },
   { id: 'msg-005', orderId: 'ord-001', at: '2026-05-04T11:15:00Z', authorRole: 'brand',        authorName: 'Mira Chen',  body: 'Approved sample fit. Cleared to keep going.' },
   { id: 'msg-006', orderId: 'ord-001', at: '2026-05-05T09:42:00Z', authorRole: 'system',       authorName: 'system',     body: 'Batch B-2417-A reached production midpoint.' },
 
   // PO-2418 — Summit perf tee
-  { id: 'msg-010', orderId: 'ord-002', at: '2026-04-21T08:30:00Z', authorRole: 'system',       authorName: 'system',     body: 'Cut & sew started at Phnom Penh Plant 1.' },
-  { id: 'msg-011', orderId: 'ord-002', at: '2026-05-04T08:10:00Z', authorRole: 'manufacturer', authorName: 'Cici Yuan',  body: 'Inline QC photos uploaded — see attached batch record.' },
+  { id: 'msg-010', orderId: 'ord-002', at: '2026-04-21T08:30:00Z', authorRole: 'system',       authorName: 'system',     body: 'Cut & sew started at Plant B.' },
+  { id: 'msg-011', orderId: 'ord-002', at: '2026-05-04T08:10:00Z', authorRole: 'manufacturer', authorName: 'Lin Wei',  body: 'Inline QC photos uploaded — see attached batch record.' },
   { id: 'msg-012', orderId: 'ord-002', at: '2026-05-05T08:15:00Z', authorRole: 'system',       authorName: 'system',     body: 'Batch B-2418 entered final QC.' },
 
   // PO-2421 — Meridian trench
-  { id: 'msg-020', orderId: 'ord-003', at: '2026-05-04T09:20:00Z', authorRole: 'system',       authorName: 'system',     body: 'Batch B-2421 entered cut & sew at Suzhou Plant 2.' },
+  { id: 'msg-020', orderId: 'ord-003', at: '2026-05-04T09:20:00Z', authorRole: 'system',       authorName: 'system',     body: 'Batch B-2421 entered cut & sew at Plant A.' },
   { id: 'msg-021', orderId: 'ord-003', at: '2026-05-04T15:00:00Z', authorRole: 'brand',        authorName: 'Jordan Pike',body: 'Confirming charcoal stays the spec — please don\'t substitute. Last season we got a different lot and it threw the color story.' },
-  { id: 'msg-022', orderId: 'ord-003', at: '2026-05-04T18:42:00Z', authorRole: 'manufacturer', authorName: 'Robert',     body: 'Confirmed — same charcoal mill, same lot family. We\'ll send a swatch with the first run.' },
+  { id: 'msg-022', orderId: 'ord-003', at: '2026-05-04T18:42:00Z', authorRole: 'manufacturer', authorName: 'Carter Webb',     body: 'Confirmed — same charcoal mill, same lot family. We\'ll send a swatch with the first run.' },
 
   // PO-2425 — Meridian oxford (just received)
   { id: 'msg-030', orderId: 'ord-004', at: '2026-05-04T16:32:00Z', authorRole: 'system',       authorName: 'system',     body: 'PO-2425 received — 1,800 units oxford shirt, ship by 2026-08-15.' },
-  { id: 'msg-031', orderId: 'ord-004', at: '2026-05-03T14:48:00Z', authorRole: 'manufacturer', authorName: 'Peter',      body: 'Allocating Phnom Penh for this one — capacity confirmed for early July start.' },
+  { id: 'msg-031', orderId: 'ord-004', at: '2026-05-03T14:48:00Z', authorRole: 'manufacturer', authorName: 'Theo Marsh',      body: 'Allocating Plant B for this one — capacity confirmed for early July start.' },
 ]
 
 export function getBrand(slug: string): Brand | undefined {

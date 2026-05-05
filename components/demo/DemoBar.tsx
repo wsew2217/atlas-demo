@@ -6,7 +6,7 @@ const links = [
   { href: '/demo',                   label: 'Manufacturer admin' },
   { href: '/demo/portal/summit',     label: 'Summit Athletics' },
   { href: '/demo/portal/meridian',   label: 'Meridian Apparel' },
-  { href: '/demo/factory',           label: 'Factory · Suzhou' },
+  { href: '/demo/factory',           label: 'Factory · Plant A' },
 ]
 
 export function DemoBar() {

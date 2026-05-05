@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import type { Batch, MilestoneState } from './demo-data'
 
-const COOKIE = 'demo-milestones'
+const COOKIE = 'demo-milestones-v2'
 const MAX_OVERRIDES = 100
 
 export interface MilestoneOverride {
