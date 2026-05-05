@@ -1,15 +1,49 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-
-const isPublicRoute = createRouteMatcher([
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/',
-])
+import { clerkMiddleware } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+import { resolveSurface } from '@/lib/surface'
 
 export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect()
+  const host = request.nextUrl.host
+  const hostName = host.split(':')[0].toLowerCase()
+  const isLocalhost = hostName === 'localhost' || hostName === '127.0.0.1'
+
+  const hostSurface = resolveSurface(host)
+  if (!hostSurface) {
+    return new NextResponse(`Unknown host: ${host}`, { status: 404 })
   }
+
+  const { pathname } = request.nextUrl
+  const explicitSurface =
+    pathname === '/marketing' || pathname.startsWith('/marketing/') ? 'marketing' :
+    pathname === '/demo' || pathname.startsWith('/demo/') ? 'demo' :
+    null
+
+  if (explicitSurface && explicitSurface !== hostSurface && !isLocalhost) {
+    return new NextResponse('Not found', { status: 404 })
+  }
+
+  const surface = explicitSurface ?? hostSurface
+
+  if (surface === 'demo') {
+    const demoPath = explicitSurface
+      ? pathname
+      : `/demo${pathname === '/' ? '' : pathname}`
+
+    const isPublic =
+      demoPath === '/demo' ||
+      demoPath === '/demo/' ||
+      demoPath.startsWith('/demo/sign-in') ||
+      demoPath.startsWith('/demo/sign-up')
+
+    if (!isPublic) {
+      await auth.protect()
+    }
+  }
+
+  if (explicitSurface) return NextResponse.next()
+
+  const target = pathname === '/' ? `/${surface}` : `/${surface}${pathname}`
+  return NextResponse.rewrite(new URL(target, request.url))
 })
 
 export const config = {

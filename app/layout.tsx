@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -26,8 +25,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Atlas Demo',
-  description: 'Atlas demo app — dummy data, Fraunces + IBM Plex stack.',
+  title: 'Kuhler',
+  description: 'Operational software for apparel manufacturers.',
 }
 
 export const viewport = {
@@ -36,28 +35,13 @@ export const viewport = {
   maximumScale: 5,
 }
 
-const clerkAppearance = {
-  variables: {
-    colorPrimary: '#B8763D',
-    colorBackground: '#FAF7F2',
-    colorText: '#1A1A1A',
-    colorTextSecondary: '#5C5C5C',
-    colorInputBackground: '#FFFFFF',
-    colorInputText: '#1A1A1A',
-    borderRadius: '6px',
-    fontFamily: 'var(--font-ibm-plex-sans), system-ui, sans-serif',
-  },
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider appearance={clerkAppearance}>
-      <html
-        lang="en"
-        className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
-      >
-        <body className="min-h-full flex flex-col">{children}</body>
-      </html>
-    </ClerkProvider>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">{children}</body>
+    </html>
   )
 }
