@@ -20,8 +20,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               Dashboard
             </Link>
-            <span className="rounded-md px-3 py-1.5 text-[var(--muted)]">Orders</span>
-            <span className="rounded-md px-3 py-1.5 text-[var(--muted)]">Factories</span>
+            <Link
+              href="/demo/orders"
+              className="rounded-md px-3 py-1.5 text-[var(--ink)] transition hover:bg-[var(--ink)]/5"
+            >
+              Orders
+            </Link>
+            <Link
+              href="/demo/factories"
+              className="rounded-md px-3 py-1.5 text-[var(--ink)] transition hover:bg-[var(--ink)]/5"
+            >
+              Factories
+            </Link>
           </nav>
         </div>
       </header>
