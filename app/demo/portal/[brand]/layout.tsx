@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getBrand } from '@/lib/demo-data'
+import { getBrand } from '@/lib/demo-db'
 
 export default async function PortalLayout({
   children,
@@ -10,7 +10,7 @@ export default async function PortalLayout({
   params: Promise<{ brand: string }>
 }) {
   const { brand: slug } = await params
-  const brand = getBrand(slug)
+  const brand = await getBrand(slug)
   if (!brand) notFound()
 
   return (

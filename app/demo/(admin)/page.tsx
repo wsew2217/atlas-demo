@@ -1,8 +1,18 @@
 import Link from 'next/link'
-import { orders, brands, batches, activity, getBrand } from '@/lib/demo-data'
+import { listOrders, listBrands, listBatches, listActivity } from '@/lib/demo-db'
+import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 
-export default function DemoDashboard() {
+export default async function DemoDashboard() {
+  const [orders, brands, batchesRaw, activity] = await Promise.all([
+    listOrders(),
+    listBrands(),
+    listBatches(),
+    listActivity(6),
+  ])
+  const batches = await loadBatchesWithOverrides(batchesRaw)
+  const brandsBySlug = new Map(brands.map((b) => [b.slug, b]))
+
   const openOrders = orders.filter((o) => o.status !== 'closed' && o.status !== 'shipped')
   const inProduction = orders.filter((o) => o.status === 'in_production')
   const unitsInProduction = inProduction.reduce((sum, o) => sum + o.totalUnits, 0)
@@ -42,7 +52,7 @@ export default function DemoDashboard() {
               </thead>
               <tbody>
                 {openOrders.map((o) => {
-                  const brand = getBrand(o.brandSlug)
+                  const brand = brandsBySlug.get(o.brandSlug)
                   return (
                     <tr
                       key={o.id}

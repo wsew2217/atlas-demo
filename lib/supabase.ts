@@ -1,24 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? ''
+// Sanitize: the env var sometimes carries a trailing /rest/v1/, but the JS
+// client wants the bare project URL.
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+const supabaseUrl = rawUrl.replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '')
 const supabaseAnon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
 
 export const supabase = createClient(supabaseUrl, supabaseAnon)
-
-export interface Project {
-  id: string
-  code: string
-  name: string
-  status: 'active' | 'paused' | 'complete'
-  owner: string
-  due: string
-}
-
-export interface Task {
-  id: string
-  project_id: string
-  title: string
-  state: 'todo' | 'in_progress' | 'done' | 'blocked'
-  assignee: string
-  updated_at: string
-}

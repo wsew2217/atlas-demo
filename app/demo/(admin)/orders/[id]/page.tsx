@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getOrder, getBrand, getBatchesForOrder, activity, getMessagesForOrder } from '@/lib/demo-data'
+import { getOrder, getBrand, getBatchesForOrder } from '@/lib/demo-db'
 import { loadMessagesForOrder } from '@/lib/demo-messages-store'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
@@ -10,13 +10,15 @@ import { ReplyForm } from '@/components/demo/ReplyForm'
 
 export default async function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const order = getOrder(id)
+  const order = await getOrder(id)
   if (!order) notFound()
 
-  const brand = getBrand(order.brandSlug)
-  const orderBatches = await loadBatchesWithOverrides(getBatchesForOrder(order))
-  const orderActivity = activity.filter((a) => a.orderId === order.id)
-  const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
+  const [brand, orderBatchesRaw, orderMessages] = await Promise.all([
+    getBrand(order.brandSlug),
+    getBatchesForOrder(order),
+    loadMessagesForOrder(order.id),
+  ])
+  const orderBatches = await loadBatchesWithOverrides(orderBatchesRaw)
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -118,28 +120,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
         </section>
 
         <aside>
-          <h2 className="mb-3 text-lg font-semibold text-[var(--ink)]">Activity</h2>
-          {orderActivity.length === 0 ? (
-            <p className="rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 text-xs text-[var(--muted)]">
-              No activity yet.
-            </p>
-          ) : (
-            <ul className="space-y-2">
-              {orderActivity.map((a) => (
-                <li
-                  key={a.id}
-                  className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-xs"
-                >
-                  <p className="text-[var(--ink)]">{a.text}</p>
-                  <p className="mt-1 font-mono text-[11px] text-[var(--muted)]">
-                    {a.isSystem ? 'system' : a.actor} · {new Date(a.at).toLocaleString()}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <div className="mt-6 rounded-md border border-[var(--border)] bg-[var(--surface)] p-4">
+          <div className="rounded-md border border-[var(--border)] bg-[var(--surface)] p-4">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
               Customer contact
             </p>

@@ -1,5 +1,7 @@
+import 'server-only'
 import { cookies } from 'next/headers'
 import type { Message } from './demo-data'
+import { getMessagesForOrder as getMessagesForOrderDb } from './demo-db'
 
 const COOKIE = 'demo-messages-v2'
 const MAX_MESSAGES = 50
@@ -27,10 +29,11 @@ export async function appendCustomMessage(message: Message): Promise<void> {
   })
 }
 
-export async function loadMessagesForOrder(
-  orderId: string,
-  fixtures: Message[],
-): Promise<Message[]> {
-  const custom = (await getCustomMessages()).filter((m) => m.orderId === orderId)
-  return [...fixtures, ...custom].sort((a, b) => a.at.localeCompare(b.at))
+export async function loadMessagesForOrder(orderId: string): Promise<Message[]> {
+  const [fixtures, custom] = await Promise.all([
+    getMessagesForOrderDb(orderId),
+    getCustomMessages(),
+  ])
+  const customForOrder = custom.filter((m) => m.orderId === orderId)
+  return [...fixtures, ...customForOrder].sort((a, b) => a.at.localeCompare(b.at))
 }
