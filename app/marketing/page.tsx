@@ -54,19 +54,19 @@ export default function HomePage() {
       {/* Hero */}
       <section className="mx-auto w-full max-w-6xl px-6 pb-16 pt-12 md:pb-24 md:pt-20">
         <div className="max-w-4xl">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+          <p className="fade-up fade-up-1 font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
             Kuhler · Operational software
           </p>
-          <h1 className="mt-4 text-5xl font-semibold leading-[1.04] tracking-tight text-[var(--ink)] md:text-6xl lg:text-7xl">
+          <h1 className="fade-up fade-up-2 mt-4 text-5xl font-semibold leading-[1.04] tracking-tight text-[var(--ink)] md:text-6xl lg:text-7xl">
             For the people running{' '}
             <span className="italic text-[var(--accent)]">apparel production.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)] md:text-xl">
+          <p className="fade-up fade-up-3 mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)] md:text-xl">
             Atlas pulls your POs, batches, factories, and customers into one platform —
             and gives every customer their own branded portal under their own domain.
             Without the spreadsheets. Without the email chains. Without the surprises.
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <div className="fade-up fade-up-4 mt-9 flex flex-wrap items-center gap-3">
             <Link
               href="/contact"
               className="inline-flex items-center rounded-md bg-[var(--ink)] px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
@@ -141,7 +141,7 @@ export default function HomePage() {
             {capabilities.map((c) => (
               <article
                 key={c.title}
-                className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 transition hover:border-[var(--accent)]/40"
+                className="lift rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]/40"
               >
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--accent)]">
                   {c.eyebrow}
@@ -258,7 +258,10 @@ function DashboardPreview() {
         <div className="flex-1 rounded-md border border-[var(--border)] bg-[var(--cream)] px-3 py-1 text-center font-mono text-[11px] text-[var(--muted)]">
           demo.kuhler.com
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">Live</span>
+        <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--muted)]">
+          <span className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-[var(--good)]" />
+          Live
+        </span>
       </div>
 
       <div className="grid gap-0 md:grid-cols-2">
