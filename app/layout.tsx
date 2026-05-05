@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -25,8 +26,26 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Kuhler',
-  description: 'Operational software for apparel manufacturers.',
+  metadataBase: new URL('https://kuhler.com'),
+  title: {
+    default: 'Kuhler — Operational software for apparel manufacturers',
+    template: '%s · Kuhler',
+  },
+  description:
+    'Atlas is the operational engine inside Kuhler — POs, batches, factories, and branded customer portals on one platform.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Kuhler',
+    title: 'Kuhler — Operational software for apparel manufacturers',
+    description:
+      'Atlas is the operational engine inside Kuhler — POs, batches, factories, and branded customer portals on one platform.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Kuhler — Operational software for apparel manufacturers',
+    description:
+      'Atlas is the operational engine inside Kuhler — POs, batches, factories, and branded customer portals on one platform.',
+  },
 }
 
 export const viewport = {

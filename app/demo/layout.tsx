@@ -17,6 +17,7 @@ const clerkAppearance = {
 export const metadata = {
   title: 'Atlas Demo',
   description: 'Atlas — operational software for apparel manufacturers. Demo with fake data.',
+  robots: { index: false, follow: false },
 }
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
