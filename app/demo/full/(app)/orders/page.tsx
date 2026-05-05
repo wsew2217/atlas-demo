@@ -49,7 +49,7 @@ export default async function FullDemoOrdersPage({
   const brandSlug = sp.brand || ''
   const q = (sp.q || '').trim().toLowerCase()
 
-  let filtered = allOrders.filter((o) => {
+  const filtered = allOrders.filter((o) => {
     if (status && o.status !== status) return false
     if (brandSlug && o.brandSlug !== brandSlug) return false
     if (q) {
@@ -66,23 +66,23 @@ export default async function FullDemoOrdersPage({
     return true
   })
 
-  // Sort
+  // Enrich with progress, then sort
   const sortKey = (sp.sort as SortKey) || 'ship_by'
   const sortDir: SortDir = sp.dir === 'desc' ? 'desc' : 'asc'
   const dir = sortDir === 'asc' ? 1 : -1
-  const enriched = filtered.map((o) => ({ ...o, _progress: orderProgress(o) }))
-  enriched.sort((a, b) => {
-    if (sortKey === 'code')     return a.code.localeCompare(b.code) * dir
-    if (sortKey === 'brand')    return a.brandSlug.localeCompare(b.brandSlug) * dir
-    if (sortKey === 'ship_by')  return a.shipBy.localeCompare(b.shipBy) * dir
-    if (sortKey === 'units')    return (a.totalUnits - b.totalUnits) * dir
-    if (sortKey === 'progress') return (a._progress - b._progress) * dir
-    if (sortKey === 'status')   return a.status.localeCompare(b.status) * dir
-    return 0
-  })
-  filtered = enriched
+  const rows = filtered
+    .map((o) => ({ ...o, _progress: orderProgress(o) }))
+    .sort((a, b) => {
+      if (sortKey === 'code')     return a.code.localeCompare(b.code) * dir
+      if (sortKey === 'brand')    return a.brandSlug.localeCompare(b.brandSlug) * dir
+      if (sortKey === 'ship_by')  return a.shipBy.localeCompare(b.shipBy) * dir
+      if (sortKey === 'units')    return (a.totalUnits - b.totalUnits) * dir
+      if (sortKey === 'progress') return (a._progress - b._progress) * dir
+      if (sortKey === 'status')   return a.status.localeCompare(b.status) * dir
+      return 0
+    })
 
-  const totalUnits = filtered.reduce((sum, o) => sum + o.totalUnits, 0)
+  const totalUnits = rows.reduce((sum, o) => sum + o.totalUnits, 0)
   const brandsBySlug = new Map(brands.map((b) => [b.slug, b]))
 
   const filtersActive = Boolean(status || brandSlug || q)
@@ -110,7 +110,7 @@ export default async function FullDemoOrdersPage({
             Orders
           </h1>
           <p className="mt-2 text-sm text-[var(--muted)]">
-            {filtered.length} of {allOrders.length} POs · {totalUnits.toLocaleString()} units shown
+            {rows.length} of {allOrders.length} POs · {totalUnits.toLocaleString()} units shown
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -219,7 +219,7 @@ export default async function FullDemoOrdersPage({
       </section>
 
       {/* Table */}
-      {filtered.length === 0 ? (
+      {rows.length === 0 ? (
         <div className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--surface)] p-12 text-center">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
             No POs match your filters
@@ -247,7 +247,7 @@ export default async function FullDemoOrdersPage({
               </tr>
             </thead>
             <tbody>
-              {filtered.map((o) => {
+              {rows.map((o) => {
                 const brand = brandsBySlug.get(o.brandSlug)
                 const desc = o.lineItems[0]?.description ?? '—'
                 const factories = [...new Set(
