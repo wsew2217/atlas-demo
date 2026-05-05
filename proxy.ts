@@ -24,10 +24,28 @@ export default clerkMiddleware(async (auth, request) => {
 
   const surface = explicitSurface ?? hostSurface
 
-  // Demo surface is fully public during the showcase phase — fake data,
-  // nothing to protect. Clerk infrastructure stays wired in app/demo/layout.tsx
-  // so we can gate routes again later by re-introducing auth.protect() here.
+  // Demo light surface is fully public — fake data, nothing to protect.
+  // Clerk infrastructure stays wired in app/demo/layout.tsx so we can gate
+  // routes again later by re-introducing auth.protect() here.
   void auth
+
+  // Gate /demo/full/* behind a simple cookie-based password.
+  if (surface === 'demo') {
+    const isFullDemo =
+      pathname === '/full' || pathname.startsWith('/full/') ||
+      pathname === '/demo/full' || pathname.startsWith('/demo/full/')
+
+    const isFullDemoSignIn =
+      pathname === '/full/sign-in' || pathname.startsWith('/full/sign-in/') ||
+      pathname === '/demo/full/sign-in' || pathname.startsWith('/demo/full/sign-in/')
+
+    if (isFullDemo && !isFullDemoSignIn) {
+      const authed = request.cookies.get('demo-full-auth')?.value === '1'
+      if (!authed) {
+        return NextResponse.redirect(new URL('/demo/full/sign-in', request.url))
+      }
+    }
+  }
 
   if (explicitSurface) return NextResponse.next()
 
