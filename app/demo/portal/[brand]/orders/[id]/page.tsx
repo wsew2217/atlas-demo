@@ -6,9 +6,11 @@ import {
   getBatchesForOrder,
   getMessagesForOrder,
 } from '@/lib/demo-data'
+import { loadMessagesForOrder } from '@/lib/demo-messages-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { MessageThread } from '@/components/demo/MessageThread'
+import { ReplyForm } from '@/components/demo/ReplyForm'
 
 export default async function PortalOrderDetail({
   params,
@@ -23,7 +25,7 @@ export default async function PortalOrderDetail({
   if (!order || order.brandSlug !== brand.slug) notFound()
 
   const orderBatches = getBatchesForOrder(order)
-  const orderMessages = getMessagesForOrder(order.id)
+  const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
 
   const totalSteps = orderBatches.reduce((n, b) => n + b.milestones.length, 0)
   const doneSteps = orderBatches.reduce(
@@ -149,19 +151,12 @@ export default async function PortalOrderDetail({
             Direct line to your account team. Auto-updates from the production floor post here too.
           </p>
           <MessageThread messages={orderMessages} viewer="brand" brandColor={brand.primary} />
-
-          <div className="mt-4 rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-3">
-            <p className="text-xs text-[var(--muted)]">
-              Reply field arrives in the next iteration. For now,{' '}
-              <a
-                href={`mailto:${brand.contactEmail}`}
-                className="text-[var(--ink)] underline-offset-2 hover:underline"
-              >
-                email your account team
-              </a>
-              .
-            </p>
-          </div>
+          <ReplyForm
+            orderId={order.id}
+            authorRole="brand"
+            authorName={brand.contact}
+            brandColor={brand.primary}
+          />
         </section>
 
         <aside className="space-y-4">

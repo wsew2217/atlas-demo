@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getOrder, getBrand, getBatchesForOrder, activity, getMessagesForOrder } from '@/lib/demo-data'
+import { loadMessagesForOrder } from '@/lib/demo-messages-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { MessageThread } from '@/components/demo/MessageThread'
+import { ReplyForm } from '@/components/demo/ReplyForm'
 
 export default async function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -13,7 +15,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
   const brand = getBrand(order.brandSlug)
   const orderBatches = getBatchesForOrder(order)
   const orderActivity = activity.filter((a) => a.orderId === order.id)
-  const orderMessages = getMessagesForOrder(order.id)
+  const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -85,6 +87,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
             milestones change.
           </p>
           <MessageThread messages={orderMessages} viewer="manufacturer" brandColor={brand?.primary} />
+          <ReplyForm orderId={order.id} authorRole="manufacturer" authorName="Robert" />
 
           <h2 className="mb-3 mt-10 text-lg font-semibold text-[var(--ink)]">Production batches</h2>
           {orderBatches.length === 0 ? (
