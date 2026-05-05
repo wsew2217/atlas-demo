@@ -33,7 +33,7 @@ const tiers = [
       'You\'ve onboarded enough customers to know the shape of the work. Pricing reflects faster onboarding and a real support cadence.',
     cta: 'Talk to us',
     features: [
-      '6–10 branded portals',
+      '6–10 branded portals under your customers\' domains',
       'Custom rules and workflows per customer',
       'Onboarding playbook with reusable customer templates',
       'Factory user accounts with mobile-friendly UI',
@@ -49,7 +49,7 @@ const tiers = [
       'You\'re running production at real volume. We dedicate a CSM, build out parallel onboarding capacity, and tighten the SLAs.',
     cta: 'Talk to us',
     features: [
-      '11–25 branded portals',
+      '11–25 branded portals under your customers\' domains',
       'Dedicated customer success manager',
       'Onboarding throughput: 3–4 new customers per quarter',
       'Custom integrations (ERP, BI, factory MES)',
