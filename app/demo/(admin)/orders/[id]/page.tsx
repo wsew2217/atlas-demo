@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getOrder, getBrand, getBatchesForOrder, activity, getMessagesForOrder } from '@/lib/demo-data'
 import { loadMessagesForOrder } from '@/lib/demo-messages-store'
+import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { MessageThread } from '@/components/demo/MessageThread'
@@ -13,7 +14,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
   if (!order) notFound()
 
   const brand = getBrand(order.brandSlug)
-  const orderBatches = getBatchesForOrder(order)
+  const orderBatches = await loadBatchesWithOverrides(getBatchesForOrder(order))
   const orderActivity = activity.filter((a) => a.orderId === order.id)
   const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
 

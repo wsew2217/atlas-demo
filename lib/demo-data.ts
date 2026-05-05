@@ -274,6 +274,15 @@ export function getBatchesForOrder(order: Order): Batch[] {
   return order.batchIds.map((id) => getBatch(id)).filter((b): b is Batch => Boolean(b))
 }
 
+export function getOrderForBatch(batchId: string): Order | undefined {
+  return orders.find((o) => o.batchIds.includes(batchId))
+}
+
+export function getBatchesForFactory(factoryQuery: string): Batch[] {
+  const q = factoryQuery.toLowerCase()
+  return batches.filter((b) => b.factory.toLowerCase().includes(q))
+}
+
 export function getActivityForBrand(slug: string): ActivityEvent[] {
   return activity.filter((a) => a.brandSlug === slug)
 }

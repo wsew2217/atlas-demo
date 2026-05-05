@@ -7,6 +7,7 @@ import {
   getMessagesForOrder,
 } from '@/lib/demo-data'
 import { loadMessagesForOrder } from '@/lib/demo-messages-store'
+import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { MessageThread } from '@/components/demo/MessageThread'
@@ -24,7 +25,7 @@ export default async function PortalOrderDetail({
   const order = getOrder(id)
   if (!order || order.brandSlug !== brand.slug) notFound()
 
-  const orderBatches = getBatchesForOrder(order)
+  const orderBatches = await loadBatchesWithOverrides(getBatchesForOrder(order))
   const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
 
   const totalSteps = orderBatches.reduce((n, b) => n + b.milestones.length, 0)

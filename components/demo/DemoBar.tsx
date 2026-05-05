@@ -6,12 +6,14 @@ const links = [
   { href: '/demo',                   label: 'Manufacturer admin' },
   { href: '/demo/portal/summit',     label: 'Summit Athletics' },
   { href: '/demo/portal/meridian',   label: 'Meridian Apparel' },
+  { href: '/demo/factory',           label: 'Factory · Suzhou' },
 ]
 
 export function DemoBar() {
   const pathname = usePathname() ?? ''
 
   const activeHref =
+    pathname.startsWith('/demo/factory')         ? '/demo/factory' :
     pathname.startsWith('/demo/portal/meridian') ? '/demo/portal/meridian' :
     pathname.startsWith('/demo/portal/summit')   ? '/demo/portal/summit'   :
     '/demo'
