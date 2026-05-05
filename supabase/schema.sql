@@ -90,21 +90,12 @@ create table demo_activity (
 );
 create index demo_activity_at_idx on demo_activity (at desc);
 
--- RLS: read-only for anon. No public writes.
-alter table demo_brands       enable row level security;
-alter table demo_orders       enable row level security;
-alter table demo_line_items   enable row level security;
-alter table demo_batches      enable row level security;
-alter table demo_order_batches enable row level security;
-alter table demo_milestones   enable row level security;
-alter table demo_messages     enable row level security;
-alter table demo_activity     enable row level security;
-
-create policy "demo public read" on demo_brands       for select using (true);
-create policy "demo public read" on demo_orders       for select using (true);
-create policy "demo public read" on demo_line_items   for select using (true);
-create policy "demo public read" on demo_batches      for select using (true);
-create policy "demo public read" on demo_order_batches for select using (true);
-create policy "demo public read" on demo_milestones   for select using (true);
-create policy "demo public read" on demo_messages     for select using (true);
-create policy "demo public read" on demo_activity     for select using (true);
+-- Public read access. These tables hold the showcase fixtures — there is no
+-- private data to protect. RLS stays disabled and we grant SELECT to the
+-- anon role explicitly so the live app (using the anon key) can read.
+grant usage on schema public to anon, authenticated;
+grant select on
+  demo_brands, demo_orders, demo_line_items,
+  demo_batches, demo_order_batches, demo_milestones,
+  demo_messages, demo_activity
+to anon, authenticated;
