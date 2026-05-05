@@ -24,21 +24,10 @@ export default clerkMiddleware(async (auth, request) => {
 
   const surface = explicitSurface ?? hostSurface
 
-  if (surface === 'demo') {
-    const demoPath = explicitSurface
-      ? pathname
-      : `/demo${pathname === '/' ? '' : pathname}`
-
-    const isPublic =
-      demoPath === '/demo' ||
-      demoPath === '/demo/' ||
-      demoPath.startsWith('/demo/sign-in') ||
-      demoPath.startsWith('/demo/sign-up')
-
-    if (!isPublic) {
-      await auth.protect()
-    }
-  }
+  // Demo surface is fully public during the showcase phase — fake data,
+  // nothing to protect. Clerk infrastructure stays wired in app/demo/layout.tsx
+  // so we can gate routes again later by re-introducing auth.protect() here.
+  void auth
 
   if (explicitSurface) return NextResponse.next()
 
