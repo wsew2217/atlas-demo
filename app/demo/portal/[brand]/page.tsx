@@ -5,18 +5,31 @@ import {
   getOrdersForBrand,
   getActivityForBrand,
   getBatchesForOrder,
-} from '@/lib/demo-data'
+} from '@/lib/demo-db'
+import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill, MilestoneStatePill } from '@/components/demo/StatusPill'
+import type { Batch } from '@/lib/demo-data'
 
 export default async function PortalHome({ params }: { params: Promise<{ brand: string }> }) {
   const { brand: slug } = await params
-  const brand = getBrand(slug)
+  const brand = await getBrand(slug)
   if (!brand) notFound()
 
-  const brandOrders = getOrdersForBrand(slug)
-  const brandActivity = getActivityForBrand(slug)
+  const [brandOrders, brandActivity] = await Promise.all([
+    getOrdersForBrand(slug),
+    getActivityForBrand(slug),
+  ])
   const openOrders = brandOrders.filter((o) => o.status !== 'closed' && o.status !== 'shipped')
   const closedOrders = brandOrders.filter((o) => o.status === 'shipped' || o.status === 'closed')
+
+  const batchesByOrderId = new Map<string, Batch[]>()
+  await Promise.all(
+    openOrders.map(async (o) => {
+      const raw = await getBatchesForOrder(o)
+      const withOverrides = await loadBatchesWithOverrides(raw)
+      batchesByOrderId.set(o.id, withOverrides)
+    }),
+  )
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
@@ -42,7 +55,7 @@ export default async function PortalHome({ params }: { params: Promise<{ brand: 
           )}
 
           {openOrders.map((o) => {
-            const orderBatches = getBatchesForOrder(o)
+            const orderBatches = batchesByOrderId.get(o.id) ?? []
             const totalSteps = orderBatches.reduce((n, b) => n + b.milestones.length, 0)
             const doneSteps = orderBatches.reduce(
               (n, b) => n + b.milestones.filter((m) => m.state === 'done').length,

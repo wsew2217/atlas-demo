@@ -185,6 +185,40 @@ async function getBatchIdsForOrder(orderId: string): Promise<string[]> {
   return (data ?? []).map((r) => r.batch_id)
 }
 
+async function fetchBatchIdsByOrder(orderIds: string[]): Promise<Map<string, string[]>> {
+  const map = new Map<string, string[]>()
+  if (orderIds.length === 0) return map
+  const { data } = await supabase
+    .from('demo_order_batches')
+    .select('order_id, batch_id, seq')
+    .in('order_id', orderIds)
+    .order('seq')
+    .returns<{ order_id: string; batch_id: string; seq: number }[]>()
+  for (const r of data ?? []) {
+    const list = map.get(r.order_id) ?? []
+    list.push(r.batch_id)
+    map.set(r.order_id, list)
+  }
+  return map
+}
+
+async function fetchLineItemsByOrder(orderIds: string[]): Promise<Map<string, LineItem[]>> {
+  const map = new Map<string, LineItem[]>()
+  if (orderIds.length === 0) return map
+  const { data } = await supabase
+    .from('demo_line_items')
+    .select('*')
+    .in('order_id', orderIds)
+    .order('seq')
+    .returns<(LineItemRow & { order_id: string })[]>()
+  for (const r of data ?? []) {
+    const list = map.get(r.order_id) ?? []
+    list.push(rowToLineItem(r))
+    map.set(r.order_id, list)
+  }
+  return map
+}
+
 export async function getOrder(id: string): Promise<Order | undefined> {
   const { data } = await supabase
     .from('demo_orders')
@@ -199,13 +233,25 @@ export async function getOrder(id: string): Promise<Order | undefined> {
   return rowToOrder(data, lineItems, batchIds)
 }
 
+async function enrichOrders(rows: OrderRow[]): Promise<Order[]> {
+  if (rows.length === 0) return []
+  const ids = rows.map((r) => r.id)
+  const [batchIdsByOrder, lineItemsByOrder] = await Promise.all([
+    fetchBatchIdsByOrder(ids),
+    fetchLineItemsByOrder(ids),
+  ])
+  return rows.map((r) =>
+    rowToOrder(r, lineItemsByOrder.get(r.id) ?? [], batchIdsByOrder.get(r.id) ?? []),
+  )
+}
+
 export async function listOrders(): Promise<Order[]> {
   const { data } = await supabase
     .from('demo_orders')
     .select('*')
     .order('created_at', { ascending: false })
     .returns<OrderRow[]>()
-  return (data ?? []).map((r) => rowToOrder(r, [], []))
+  return enrichOrders(data ?? [])
 }
 
 export async function getOrdersForBrand(slug: string): Promise<Order[]> {
@@ -215,7 +261,7 @@ export async function getOrdersForBrand(slug: string): Promise<Order[]> {
     .eq('brand_slug', slug)
     .order('created_at', { ascending: false })
     .returns<OrderRow[]>()
-  return (data ?? []).map((r) => rowToOrder(r, [], []))
+  return enrichOrders(data ?? [])
 }
 
 export async function getOrderForBatch(batchId: string): Promise<Order | undefined> {
