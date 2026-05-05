@@ -118,6 +118,38 @@ export default function CustomersPage() {
         </p>
       </section>
 
+      {/* Testimonial */}
+      <section className="border-y border-[var(--border)] bg-[var(--cream)]">
+        <div className="mx-auto w-full max-w-4xl px-6 py-20 text-center">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+            What an early customer said
+          </p>
+          <blockquote className="mt-8">
+            <p className="font-display text-2xl leading-snug text-[var(--ink)] md:text-3xl lg:text-4xl">
+              <span className="text-[var(--accent)]">&ldquo;</span>
+              Atlas replaced 14 Outlook tabs and a shared spreadsheet. We onboarded our first
+              three customers on it in two weeks. The branded portal piece is the hook for{' '}
+              <em className="text-[var(--accent)]">them</em> — but the operator side is the hook
+              for <em className="text-[var(--accent)]">us</em>.
+              <span className="text-[var(--accent)]">&rdquo;</span>
+            </p>
+            <footer className="mt-8 flex items-center justify-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--ink)] font-display text-lg text-[var(--cream)]">
+                ◆
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-semibold text-[var(--ink)]">
+                  Operations leader · Operator-tier customer
+                </p>
+                <p className="font-mono text-xs text-[var(--muted)]">
+                  Real customer quote · attribution coming as launches go public
+                </p>
+              </div>
+            </footer>
+          </blockquote>
+        </div>
+      </section>
+
       <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
         <div className="mx-auto w-full max-w-6xl px-6 py-20">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
