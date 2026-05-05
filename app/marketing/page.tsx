@@ -198,8 +198,9 @@ export default function HomePage() {
                 Tailored to <span className="italic text-[var(--accent)]">your shape.</span>
               </h2>
               <p className="mt-3 max-w-xl text-[var(--muted)]">
-                Foundation, Operator, Platform — pick the tier that fits your operation. We quote
-                pricing on a 15-minute call so you don&rsquo;t pay for capacity you won&rsquo;t use.
+                Foundation (1–5), Operator (6–10), Scale (11–25), and Enterprise for higher
+                volume — pick the tier that matches the size of your customer book. We quote
+                on a 15-minute call so you don&rsquo;t pay for capacity you won&rsquo;t use.
               </p>
             </div>
             <Link

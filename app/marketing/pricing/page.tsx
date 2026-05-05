@@ -3,62 +3,75 @@ import Link from 'next/link'
 export const metadata = {
   title: 'Pricing',
   description:
-    'Pricing tailored to your operation — Foundation, Operator, and Platform tiers. Quoted on a 15-minute call.',
+    'Pricing tailored to your operation — Foundation, Operator, and Scale tiers, plus Enterprise for 25+ customers. Quoted on a 15-minute call.',
 }
 
 const tiers = [
   {
     name: 'Foundation',
-    eyebrow: 'For single-customer manufacturers',
+    band: '1–5 customer portals',
+    eyebrow: 'For new and small operators',
     description:
-      'You make product for one buyer. You want POs out of email and into a system that won&rsquo;t lose a line item.',
+      'You make product for a handful of customers. Each one matters. We onboard each of them with you, hands-on.',
     cta: 'Talk to us',
     features: [
-      'One customer portal under your domain',
+      '1–5 branded portals under your customers\' domains',
       'Atlas operations dashboard for the manufacturer',
       'POs · batches · milestones · QC · ship',
       'Conversation thread per order',
-      'Standard email support',
-      'Onboarded in under a week',
+      'Per-customer SKU and product catalog',
+      'White-glove onboarding for every customer',
+      'Standard email support · 1-business-day response',
     ],
   },
   {
     name: 'Operator',
-    eyebrow: 'For multi-customer manufacturers and brokers',
+    band: '6–10 customer portals',
     highlight: true,
+    eyebrow: 'For growing operators with a playbook',
     description:
-      'You make product for many buyers. Each customer wants their own portal, branded as them. You want one platform.',
+      'You\'ve onboarded enough customers to know the shape of the work. Pricing reflects faster onboarding and a real support cadence.',
     cta: 'Talk to us',
     features: [
-      'Up to 25 branded customer portals',
-      'Custom CSS variables per tenant',
+      '6–10 branded portals',
+      'Custom rules and workflows per customer',
+      'Onboarding playbook with reusable customer templates',
       'Factory user accounts with mobile-friendly UI',
-      'Per-customer conversation threads',
-      'Priority support · Slack channel',
-      'Concierge onboarding for each new customer',
+      'Priority support · 4-hour response · shared Slack channel',
+      'Quarterly business review with the Kuhler team',
     ],
   },
   {
-    name: 'Platform',
-    eyebrow: 'For high-volume operators and aggregators',
+    name: 'Scale',
+    band: '11–25 customer portals',
+    eyebrow: 'For established operators with throughput',
     description:
-      'You run hundreds of customers across dozens of factories. You need API access, custom integrations, and dedicated support.',
+      'You\'re running production at real volume. We dedicate a CSM, build out parallel onboarding capacity, and tighten the SLAs.',
     cta: 'Talk to us',
     features: [
-      'Unlimited branded portals',
-      'White-label everything · zero Kuhler branding visible',
-      'Public API + webhooks for ERP/BI integration',
-      'SSO via Clerk Organizations',
+      '11–25 branded portals',
       'Dedicated customer success manager',
-      'Custom SLAs · DPA on request',
+      'Onboarding throughput: 3–4 new customers per quarter',
+      'Custom integrations (ERP, BI, factory MES)',
+      'API access + webhooks',
+      '99.9% uptime SLA · 1-hour response',
+      'Monthly business review',
     ],
   },
 ]
 
 const faqs = [
   {
-    q: 'Why don&rsquo;t you list prices?',
-    a: 'Because pricing depends on your shape — number of customers, number of factories, volume of POs. We quote on a call so you don&rsquo;t pay for capacity you won&rsquo;t use. The call takes 15 minutes.',
+    q: 'Why are the customer bands tight?',
+    a: 'Because each customer is real work. We onboard you and your customer together — SKU mapping, product catalog, per-customer rules, workflows, training. The bands reflect what we can actually deliver well. We&rsquo;d rather be honest about throughput than promise unlimited and underdeliver.',
+  },
+  {
+    q: 'What if I&rsquo;m running more than 25 customers?',
+    a: 'Talk to us about Enterprise. At that volume you need a dedicated onboarding team, custom contracts, and infrastructure choices that don&rsquo;t make sense to publish. We tailor every aspect of the engagement.',
+  },
+  {
+    q: 'Why don&rsquo;t you list dollar prices?',
+    a: 'Because pricing depends on more than customer count — number of factories, volume of POs, integration scope, support tier. We quote on a 15-minute call so you don&rsquo;t pay for capacity you won&rsquo;t use.',
   },
   {
     q: 'How does white-labeling actually work?',
@@ -66,11 +79,11 @@ const faqs = [
   },
   {
     q: 'Who owns the data?',
-    a: 'You do. Your customers do for theirs. Atlas is the system of record while you&rsquo;re a customer; full export to CSV/Postgres dump available any time. Pull the CNAME and the portal goes dark — we never had hostage power over your customer relationships.',
+    a: 'You do. Your customers do for theirs. Atlas is the system of record while you&rsquo;re a customer; full export to CSV/Postgres dump available any time. Pull a CNAME and the portal goes dark — we never had hostage power over your customer relationships.',
   },
   {
     q: 'How long does onboarding take?',
-    a: 'Foundation: 3–5 business days. Operator: about a week including the first two customer portals. Platform: about two weeks including SSO, API integration, and DPA review. We do white-glove onboarding on every tier — you&rsquo;re not figuring out a checklist alone.',
+    a: 'Foundation: about a week per customer. Operator: faster after the second or third (the playbook kicks in) — usually 3–4 days. Scale: we run 2–3 customers in parallel with the CSM. Enterprise: dedicated team, scoped per engagement.',
   },
   {
     q: 'What if I want to leave?',
@@ -93,12 +106,14 @@ export default function PricingPage() {
           Tailored to <span className="italic text-[var(--accent)]">your shape.</span>
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[var(--muted)]">
-          Three tiers, picked to match how you actually run production. We quote on a 15-minute
-          call so you don&rsquo;t pay for capacity you won&rsquo;t use.
+          Three tiers, sized by how many customers you&rsquo;re running. Each tier reflects the
+          shape of the work — onboarding throughput, support cadence, and capacity dedicated to
+          your operation. We quote on a 15-minute call so you don&rsquo;t pay for capacity you
+          won&rsquo;t use.
         </p>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+      <section className="mx-auto w-full max-w-6xl px-6 pb-12">
         <div className="grid gap-6 md:grid-cols-3">
           {tiers.map((t) => (
             <article
@@ -115,7 +130,8 @@ export default function PricingPage() {
               <h2 className="mt-2 font-display text-3xl font-semibold text-[var(--ink)]">
                 {t.name}
               </h2>
-              <p className="mt-3 text-sm text-[var(--muted)]">{t.description}</p>
+              <p className="mt-2 font-mono text-xs text-[var(--muted)]">{t.band}</p>
+              <p className="mt-4 text-sm text-[var(--muted)]">{t.description}</p>
 
               <ul className="mt-6 flex-1 space-y-2.5 border-t border-[var(--border)] pt-6 text-sm">
                 {t.features.map((f) => (
@@ -138,6 +154,33 @@ export default function PricingPage() {
               </Link>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* Enterprise strip */}
+      <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--cream)] px-6 py-8 md:flex md:items-center md:justify-between md:gap-8 md:px-10 md:py-10">
+          <div className="flex-1">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--accent)]">
+              Enterprise · 25+ customer portals
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-semibold leading-snug text-[var(--ink)] md:text-3xl">
+              Running more than 25 customers? <span className="italic text-[var(--accent)]">Let&rsquo;s talk Enterprise.</span>
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm text-[var(--muted)]">
+              At that volume, every aspect is custom: dedicated onboarding team, white-label
+              everything, public API + webhooks, SSO via Clerk Organizations, custom contracts,
+              negotiated SLAs, DPA on request. We tailor the engagement to your operation.
+            </p>
+          </div>
+          <div className="mt-6 md:mt-0 md:shrink-0">
+            <Link
+              href="/contact"
+              className="inline-flex items-center rounded-md bg-[var(--ink)] px-5 py-3 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
+            >
+              Talk to us about Enterprise →
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -172,7 +215,8 @@ export default function PricingPage() {
             Get a quote in <span className="italic text-[var(--accent)]">15 minutes.</span>
           </h2>
           <p className="mt-4 max-w-2xl text-[var(--cream)]/70">
-            Tell us your shape. We&rsquo;ll tell you the tier, the timeline, and the price.
+            Tell us your shape — number of customers, factories, the kind of POs you&rsquo;re
+            running. We&rsquo;ll tell you the tier, the timeline, and the price.
           </p>
           <div className="mt-8">
             <Link
