@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import {
   getBrand,
@@ -50,9 +51,10 @@ export default async function PortalHome({ params }: { params: Promise<{ brand: 
             const progress = totalSteps === 0 ? 0 : Math.round((doneSteps / totalSteps) * 100)
 
             return (
-              <article
+              <Link
                 key={o.id}
-                className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
+                href={`/demo/portal/${brand.slug}/orders/${o.id}`}
+                className="block rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 transition hover:border-[var(--accent)]/40 hover:shadow-sm"
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <div>
@@ -102,7 +104,7 @@ export default async function PortalHome({ params }: { params: Promise<{ brand: 
                     )}
                   </div>
                 )}
-              </article>
+              </Link>
             )
           })}
 
