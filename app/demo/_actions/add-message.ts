@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { getOrder } from '@/lib/demo-data'
+import { getOrder } from '@/lib/demo-db'
 import { appendCustomMessage } from '@/lib/demo-messages-store'
 
 export async function addMessageAction(
@@ -15,7 +15,7 @@ export async function addMessageAction(
   if (!body) return
   if (body.length > 2000) return
 
-  const order = getOrder(orderId)
+  const order = await getOrder(orderId)
   if (!order) return
 
   await appendCustomMessage({

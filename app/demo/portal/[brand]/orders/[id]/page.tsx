@@ -4,8 +4,7 @@ import {
   getBrand,
   getOrder,
   getBatchesForOrder,
-  getMessagesForOrder,
-} from '@/lib/demo-data'
+} from '@/lib/demo-db'
 import { loadMessagesForOrder } from '@/lib/demo-messages-store'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
@@ -19,14 +18,17 @@ export default async function PortalOrderDetail({
   params: Promise<{ brand: string; id: string }>
 }) {
   const { brand: slug, id } = await params
-  const brand = getBrand(slug)
+  const brand = await getBrand(slug)
   if (!brand) notFound()
 
-  const order = getOrder(id)
+  const order = await getOrder(id)
   if (!order || order.brandSlug !== brand.slug) notFound()
 
-  const orderBatches = await loadBatchesWithOverrides(getBatchesForOrder(order))
-  const orderMessages = await loadMessagesForOrder(order.id, getMessagesForOrder(order.id))
+  const [orderBatchesRaw, orderMessages] = await Promise.all([
+    getBatchesForOrder(order),
+    loadMessagesForOrder(order.id),
+  ])
+  const orderBatches = await loadBatchesWithOverrides(orderBatchesRaw)
 
   const totalSteps = orderBatches.reduce((n, b) => n + b.milestones.length, 0)
   const doneSteps = orderBatches.reduce(

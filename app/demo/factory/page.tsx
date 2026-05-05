@@ -3,18 +3,31 @@ import {
   getBatchesForFactory,
   getOrderForBatch,
   getBrand,
-} from '@/lib/demo-data'
+} from '@/lib/demo-db'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { AdvanceMilestoneButton } from '@/components/demo/AdvanceMilestoneButton'
+import type { Brand, Order } from '@/lib/demo-data'
 
 const FACTORY_QUERY = 'Plant A'
 const FACTORY_NAME = 'Plant A · China'
 const USER_NAME = 'Lin Wei'
 
 export default async function FactoryDashboard() {
-  const fixtureBatches = getBatchesForFactory(FACTORY_QUERY)
+  const fixtureBatches = await getBatchesForFactory(FACTORY_QUERY)
   const batches = await loadBatchesWithOverrides(fixtureBatches)
+
+  const orderByBatchId = new Map<string, Order>()
+  const brandByBatchId = new Map<string, Brand>()
+  await Promise.all(
+    batches.map(async (b) => {
+      const order = await getOrderForBatch(b.id)
+      if (!order) return
+      orderByBatchId.set(b.id, order)
+      const brand = await getBrand(order.brandSlug)
+      if (brand) brandByBatchId.set(b.id, brand)
+    }),
+  )
 
   return (
     <>
@@ -49,8 +62,8 @@ export default async function FactoryDashboard() {
 
         <div className="space-y-6">
           {batches.map((batch) => {
-            const order = getOrderForBatch(batch.id)
-            const brand = order ? getBrand(order.brandSlug) : undefined
+            const order = orderByBatchId.get(batch.id)
+            const brand = brandByBatchId.get(batch.id)
             const nextMilestone = batch.milestones.find((m) => m.state === 'in_progress')
             const allDone = batch.milestones.every((m) => m.state === 'done')
 

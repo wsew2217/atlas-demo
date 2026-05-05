@@ -1,19 +1,19 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { getBatch, getOrderForBatch } from '@/lib/demo-data'
+import { getBatch, getOrderForBatch } from '@/lib/demo-db'
 import { appendMilestoneOverride } from '@/lib/demo-batch-store'
 import { appendCustomMessage } from '@/lib/demo-messages-store'
 
 export async function advanceMilestoneAction(batchId: string, milestoneId: string) {
-  const batch = getBatch(batchId)
-  if (!batch) return
+  const [batch, order] = await Promise.all([
+    getBatch(batchId),
+    getOrderForBatch(batchId),
+  ])
+  if (!batch || !order) return
 
   const milestone = batch.milestones.find((m) => m.id === milestoneId)
   if (!milestone) return
-
-  const order = getOrderForBatch(batchId)
-  if (!order) return
 
   const todayDate = new Date().toISOString().slice(0, 10)
   const nowIso = new Date().toISOString()
