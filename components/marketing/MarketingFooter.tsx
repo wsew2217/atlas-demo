@@ -4,6 +4,7 @@ const product = [
   { href: '/product',         label: 'How it works' },
   { href: '/pricing',         label: 'Pricing' },
   { href: '/atlas-vs-erp',    label: 'Atlas vs ERP' },
+  { href: '/developers',      label: 'Developers · API' },
   { href: 'https://demo.kuhler.com', label: 'Live demo' },
 ]
 
