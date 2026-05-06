@@ -7,9 +7,7 @@ export const metadata = {
   robots: { index: false, follow: false },
 }
 
-const upcoming = [
-  { title: 'Factory',   body: 'Multi-factory operator view with capacity planning, weekly status reports, and shift handoffs.',   href: '/demo/full/factory',   status: 'coming' as const },
-]
+const upcoming: { title: string; body: string; href: string; status: 'coming' }[] = []
 
 export default async function FullDemoDashboardPage() {
   const [orders, brands, batchesRaw, activity] = await Promise.all([
@@ -104,6 +102,27 @@ export default async function FullDemoDashboardPage() {
                 <p className="mt-2 text-sm text-[var(--muted)]">
                   Per-customer management — portal configuration, custom rules, SKU catalog, and
                   recent activity. Drill into any customer for the full picture.
+                </p>
+              </div>
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
+                Open →
+              </span>
+            </Link>
+
+            <Link
+              href="/demo/full/factory"
+              className="lift flex items-center justify-between rounded-lg border border-[var(--accent)]/40 bg-[var(--surface)] p-5"
+            >
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--cream)]">
+                    Live
+                  </span>
+                  <h3 className="font-display text-xl font-semibold text-[var(--ink)]">Factories</h3>
+                </div>
+                <p className="mt-2 text-sm text-[var(--muted)]">
+                  Multi-factory operator view — capacity per facility, on-time rate, pending
+                  allocations, advance milestones from any factory.
                 </p>
               </div>
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
