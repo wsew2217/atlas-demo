@@ -1,13 +1,18 @@
 export function WorkflowDiagram() {
   return (
-    <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--cream)] p-6 md:p-10">
-      <svg
-        viewBox="0 0 900 480"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block h-auto w-full"
-        role="img"
-        aria-label="Atlas workflow: PDF PO arrives, Atlas parses and allocates, factories produce, customer portal updates live"
-      >
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--cream)]">
+      <div className="md:hidden border-b border-[var(--border)] px-4 py-2 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)]">
+        ← Swipe to explore the diagram →
+      </div>
+      <div className="overflow-x-auto p-6 md:p-10">
+        <svg
+          viewBox="0 0 900 480"
+          xmlns="http://www.w3.org/2000/svg"
+          className="block h-auto w-[820px] md:w-full md:min-w-0"
+          style={{ minWidth: '820px' }}
+          role="img"
+          aria-label="Atlas workflow: PDF PO arrives, Atlas parses and allocates, factories produce, customer portal updates live"
+        >
         <defs>
           <marker
             id="arrow"
@@ -154,6 +159,7 @@ export function WorkflowDiagram() {
           <text x="208" y="10" fontFamily="ui-monospace, monospace" fontSize="9" fill="#5C5C5C">Status updates (auto-propagated)</text>
         </g>
       </svg>
+      </div>
     </div>
   )
 }
