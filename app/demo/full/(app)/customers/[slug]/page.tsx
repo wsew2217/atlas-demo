@@ -7,7 +7,16 @@ import {
   getBatchesForOrder,
 } from '@/lib/demo-db'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
+import {
+  getCustomRulesForCustomer,
+  getRemovedFixtureIds,
+} from '@/lib/demo-rules-store'
+import {
+  removeCustomRuleAction,
+  toggleFixtureRuleAction,
+} from '@/app/demo/_actions/manage-rules'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
+import { AddRuleForm } from '@/components/demo/AddRuleForm'
 import type { Batch } from '@/lib/demo-data'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -25,17 +34,17 @@ function deriveDomain(email: string): string {
   return at >= 0 ? email.slice(at + 1) : email
 }
 
-const customRulesByBrand: Record<string, { rule: string; detail: string }[]> = {
+const customRulesByBrand: Record<string, { id: string; rule: string; detail: string }[]> = {
   summit: [
-    { rule: 'Production midpoint requires customer QC approval', detail: 'Inline QC photos shared, customer must approve before next milestone advances.' },
-    { rule: 'Auto-notify on every milestone change',              detail: 'Email + portal notification to Mira Chen for all status updates.' },
-    { rule: 'All POs must include GTIN at line-item level',       detail: 'Validated on intake; rejected if missing.' },
-    { rule: 'Charcoal/navy color spec — hold lot family',         detail: 'Must source from same mill across reorders for color consistency.' },
+    { id: 'sum-r1', rule: 'Production midpoint requires customer QC approval', detail: 'Inline QC photos shared, customer must approve before next milestone advances.' },
+    { id: 'sum-r2', rule: 'Auto-notify on every milestone change',              detail: 'Email + portal notification to primary contact for all status updates.' },
+    { id: 'sum-r3', rule: 'All POs must include GTIN at line-item level',       detail: 'Validated on intake; rejected if missing.' },
+    { id: 'sum-r4', rule: 'Charcoal/navy color spec — hold lot family',         detail: 'Must source from same mill across reorders for color consistency.' },
   ],
   meridian: [
-    { rule: 'No fabric substitutions without written approval', detail: 'Lot-family lock on charcoal; requires email confirm before any swap.' },
-    { rule: 'QC pass requires photo evidence per batch',        detail: 'Minimum 3 photos uploaded to batch record.' },
-    { rule: 'Ship 3 business days before customer ship-by',     detail: 'Built-in cushion; flag if not on track 7 days out.' },
+    { id: 'mer-r1', rule: 'No fabric substitutions without written approval', detail: 'Lot-family lock on charcoal; requires email confirm before any swap.' },
+    { id: 'mer-r2', rule: 'QC pass requires photo evidence per batch',        detail: 'Minimum 3 photos uploaded to batch record.' },
+    { id: 'mer-r3', rule: 'Ship 3 business days before customer ship-by',     detail: 'Built-in cushion; flag if not on track 7 days out.' },
   ],
 }
 
@@ -49,9 +58,11 @@ export default async function CustomerDetailPage({
   const brand = await getBrand(slug)
   if (!brand) notFound()
 
-  const [brandOrders, brandActivity] = await Promise.all([
+  const [brandOrders, brandActivity, customRules, removedFixtureIds] = await Promise.all([
     getOrdersForBrand(slug),
     getActivityForBrand(slug),
+    getCustomRulesForCustomer(slug),
+    getRemovedFixtureIds(slug),
   ])
 
   const open = brandOrders.filter((o) => o.status !== 'closed' && o.status !== 'shipped')
@@ -70,7 +81,8 @@ export default async function CustomerDetailPage({
     }),
   )
 
-  const rules = customRulesByBrand[slug] ?? []
+  const fixtureRules = customRulesByBrand[slug] ?? []
+  const totalRules = fixtureRules.filter((r) => !removedFixtureIds.includes(r.id)).length + customRules.length
   const uniqueSkus = new Set(brandOrders.flatMap((o) => o.lineItems.map((li) => li.sku))).size
   const productFamilies = new Set(brandOrders.flatMap((o) => o.lineItems.map((li) => li.description))).size
   const domain = deriveDomain(brand.contactEmail)
@@ -190,30 +202,80 @@ export default async function CustomerDetailPage({
             <div className="mb-3 flex items-end justify-between gap-3">
               <h2 className="text-lg font-semibold text-[var(--ink)]">Custom rules</h2>
               <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">
-                {rules.length} rules
+                {totalRules} active
+                {removedFixtureIds.length > 0 && ` · ${removedFixtureIds.length} disabled`}
               </span>
             </div>
             <div className="space-y-2">
-              {rules.length === 0 ? (
-                <p className="rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]">
-                  No custom rules configured. All POs follow the default workflow.
-                </p>
-              ) : (
-                rules.map((r) => (
+              {fixtureRules.map((r) => {
+                const disabled = removedFixtureIds.includes(r.id)
+                const toggleAction = toggleFixtureRuleAction.bind(null, slug, r.id)
+                return (
                   <article
-                    key={r.rule}
-                    className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
+                    key={r.id}
+                    className={`flex flex-wrap items-start justify-between gap-3 rounded-md border bg-[var(--surface)] px-4 py-3 ${
+                      disabled
+                        ? 'border-dashed border-[var(--border)] opacity-60'
+                        : 'border-[var(--border)]'
+                    }`}
                   >
-                    <p className="text-sm font-medium text-[var(--ink)]">{r.rule}</p>
-                    <p className="mt-1 text-xs text-[var(--muted)]">{r.detail}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className={`text-sm font-medium ${disabled ? 'text-[var(--muted)] line-through' : 'text-[var(--ink)]'}`}>
+                        {r.rule}
+                      </p>
+                      <p className="mt-1 text-xs text-[var(--muted)]">{r.detail}</p>
+                    </div>
+                    <form action={toggleAction}>
+                      <input type="hidden" name="action" value={disabled ? 'enable' : 'disable'} />
+                      <button
+                        type="submit"
+                        className="rounded-md border border-[var(--border)] bg-[var(--cream)] px-2.5 py-1 text-xs text-[var(--muted)] transition hover:text-[var(--ink)]"
+                      >
+                        {disabled ? 'Re-enable' : 'Disable'}
+                      </button>
+                    </form>
                   </article>
-                ))
+                )
+              })}
+
+              {customRules.map((r) => {
+                const removeAction = removeCustomRuleAction.bind(null, slug, r.id)
+                return (
+                  <article
+                    key={r.id}
+                    className="flex flex-wrap items-start justify-between gap-3 rounded-md border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-4 py-3"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-[var(--accent)]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">
+                          Custom
+                        </span>
+                        <p className="text-sm font-medium text-[var(--ink)]">{r.rule}</p>
+                      </div>
+                      {r.detail && <p className="mt-1 text-xs text-[var(--muted)]">{r.detail}</p>}
+                    </div>
+                    <form action={removeAction}>
+                      <button
+                        type="submit"
+                        className="rounded-md border border-[var(--alert)]/30 bg-[var(--surface)] px-2.5 py-1 text-xs text-[var(--alert)] transition hover:bg-[var(--alert)]/10"
+                      >
+                        Remove
+                      </button>
+                    </form>
+                  </article>
+                )
+              })}
+
+              {totalRules === 0 && (
+                <p className="rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]">
+                  No active rules. All POs follow the default workflow.
+                </p>
               )}
             </div>
-            <p className="mt-3 text-xs text-[var(--muted)]">
-              Rule editor coming in a future round. For now, rules are managed in the platform
-              admin database.
-            </p>
+
+            <div className="mt-4">
+              <AddRuleForm customerSlug={slug} />
+            </div>
           </div>
 
           {/* SKU catalog */}
