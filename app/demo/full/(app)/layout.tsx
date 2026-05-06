@@ -5,6 +5,7 @@ const navLinks = [
   { href: '/demo/full', label: 'Dashboard' },
   { href: '/demo/full/orders', label: 'Orders' },
   { href: '/demo/full/batches', label: 'Batches' },
+  { href: '/demo/full/customers', label: 'Customers' },
 ]
 
 export default function FullDemoLayout({ children }: { children: React.ReactNode }) {

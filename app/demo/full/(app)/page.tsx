@@ -90,6 +90,27 @@ export default async function FullDemoDashboardPage() {
               </span>
             </Link>
 
+            <Link
+              href="/demo/full/customers"
+              className="lift flex items-center justify-between rounded-lg border border-[var(--accent)]/40 bg-[var(--surface)] p-5"
+            >
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--cream)]">
+                    Live
+                  </span>
+                  <h3 className="font-display text-xl font-semibold text-[var(--ink)]">Customers</h3>
+                </div>
+                <p className="mt-2 text-sm text-[var(--muted)]">
+                  Per-customer management — portal configuration, custom rules, SKU catalog, and
+                  recent activity. Drill into any customer for the full picture.
+                </p>
+              </div>
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
+                Open →
+              </span>
+            </Link>
+
             {upcoming.map((u) => (
               <article
                 key={u.href}
