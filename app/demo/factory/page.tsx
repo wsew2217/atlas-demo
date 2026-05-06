@@ -41,9 +41,20 @@ export default async function FactoryDashboard() {
               Factory · {FACTORY_NAME}
             </span>
           </Link>
-          <div className="flex items-center gap-3 text-xs">
-            <span className="text-[var(--muted)]">Signed in as</span>
-            <span className="font-medium text-[var(--ink)]">{USER_NAME}</span>
+          <div className="flex items-center gap-4">
+            <nav className="flex items-center gap-1 text-xs font-mono">
+              <span className="rounded-md bg-[var(--ink)] px-2.5 py-1 text-[var(--cream)]">
+                Plant A
+              </span>
+              <Link
+                href="/demo/factory/plant-b"
+                className="rounded-md px-2.5 py-1 text-[var(--muted)] transition hover:bg-[var(--ink)]/5 hover:text-[var(--ink)]"
+              >
+                Plant B
+              </Link>
+            </nav>
+            <span className="hidden text-xs text-[var(--muted)] sm:inline">Signed in as</span>
+            <span className="text-xs font-medium text-[var(--ink)]">{USER_NAME}</span>
           </div>
         </div>
       </header>
