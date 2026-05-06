@@ -65,6 +65,12 @@ export function MarketingNav() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Link
+            href="/waitlist"
+            className="rounded-md px-3 py-1.5 text-sm text-[var(--ink)] transition hover:bg-[var(--surface)]"
+          >
+            Join waitlist
+          </Link>
+          <Link
             href="/contact"
             className="rounded-md bg-[var(--ink)] px-3.5 py-1.5 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
           >
@@ -107,8 +113,14 @@ export function MarketingNav() {
               </Link>
             ))}
             <Link
+              href="/waitlist"
+              className="mt-4 inline-flex items-center justify-center rounded-md border border-[var(--border)] px-4 py-2.5 text-sm font-medium text-[var(--ink)]"
+            >
+              Join waitlist
+            </Link>
+            <Link
               href="/contact"
-              className="mt-4 inline-flex items-center justify-center rounded-md bg-[var(--ink)] px-4 py-2.5 text-sm font-medium text-[var(--cream)]"
+              className="mt-2 inline-flex items-center justify-center rounded-md bg-[var(--ink)] px-4 py-2.5 text-sm font-medium text-[var(--cream)]"
             >
               Book a demo
             </Link>

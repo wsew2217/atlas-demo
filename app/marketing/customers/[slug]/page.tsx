@@ -50,6 +50,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <p className="mt-5 text-xl italic leading-snug text-[var(--accent)] md:text-2xl">
             {study.tagline}
           </p>
+          {study.customerUrl && (
+            <p className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--muted)]">
+              <a
+                href={study.customerUrl}
+                target="_blank"
+                rel="noopener"
+                className="text-[var(--ink)] underline-offset-4 hover:underline"
+              >
+                {study.customerUrl.replace(/^https?:\/\//, '')} ↗
+              </a>
+              {study.featured && <span className="ml-3 text-[var(--accent)]">● First beta customer</span>}
+            </p>
+          )}
         </header>
 
         <div className="mt-10 rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/5 p-6">
@@ -83,6 +96,11 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                     className="font-display text-xl italic leading-snug text-[var(--ink)] md:text-2xl"
                     dangerouslySetInnerHTML={{ __html: block.content as string }}
                   />
+                  {study.attributedTo && (
+                    <footer className="mt-3 font-mono text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
+                      — {study.attributedTo.name} · {study.attributedTo.role}
+                    </footer>
+                  )}
                 </blockquote>
               )
             }
@@ -107,10 +125,31 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           })}
         </div>
 
-        <p className="mt-12 rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-xs text-[var(--muted)]">
-          Composite story from early-access conversations. Real customer name and full attribution
-          coming as launches go public.
-        </p>
+        {study.attributedTo && (
+          <div className="mt-12 flex items-center gap-4 rounded-md border border-[var(--border)] bg-[var(--surface)] p-5">
+            <div
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full font-display text-lg font-semibold"
+              style={{ backgroundColor: '#C4953A', color: '#080808' }}
+              aria-hidden
+            >
+              {study.attributedTo.name[0]}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[var(--ink)]">
+                {study.attributedTo.name}
+              </p>
+              <p className="font-mono text-xs text-[var(--muted)]">
+                {study.attributedTo.role}
+              </p>
+            </div>
+          </div>
+        )}
+        {study.composite !== false && (
+          <p className="mt-12 rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-xs text-[var(--muted)]">
+            Composite story from early-access conversations. Real customer name and full attribution
+            coming as launches go public.
+          </p>
+        )}
       </article>
 
       {otherStudies.length > 0 && (

@@ -73,12 +73,10 @@ export default function CustomersPage() {
             Customers · with us
           </p>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-            <a
-              href="https://trgapparel.com"
-              target="_blank"
-              rel="noopener"
+            <Link
+              href="/customers/trg-apparel"
               className="lift flex h-20 items-center justify-center gap-2.5 rounded-md border border-[var(--ink)] bg-[var(--ink)] transition"
-              aria-label="TRG Apparel — first beta customer"
+              aria-label="TRG Apparel — first beta customer · read the case study"
             >
               <span
                 className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--ink)]"
@@ -89,7 +87,7 @@ export default function CustomersPage() {
               <span className="font-display text-[11px] font-semibold tracking-[0.22em] text-[var(--cream)]">
                 TRG APPAREL
               </span>
-            </a>
+            </Link>
             {Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}
@@ -158,7 +156,7 @@ export default function CustomersPage() {
               </h2>
             </div>
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
-              {caseStudies.length} composite studies
+              {caseStudies.length} case studies · 1 named, {caseStudies.length - 1} composite
             </p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
@@ -226,7 +224,23 @@ export default function CustomersPage() {
               </div>
             </footer>
           </blockquote>
-          <p className="mt-8 text-xs text-[var(--muted)]">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/customers/trg-apparel"
+              className="inline-flex items-center rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
+            >
+              Read the case study →
+            </Link>
+            <a
+              href="https://trgapparel.com"
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center rounded-md border border-[var(--border)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition hover:bg-[var(--surface)]"
+            >
+              Visit trgapparel.com ↗
+            </a>
+          </div>
+          <p className="mt-6 text-xs text-[var(--muted)]">
             Quote drafted with TRG; final wording subject to approval before press kit usage.
           </p>
         </div>

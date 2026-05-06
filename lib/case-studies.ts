@@ -12,10 +12,52 @@ export interface CaseStudy {
   outcome: string
   tier: 'Foundation' | 'Operator' | 'Scale' | 'Enterprise'
   industry: string
+  /** Composite/anonymized story drawn from early-access conversations. Real, named customers (e.g. TRG) should set false. */
+  composite?: boolean
+  /** Real customer URL — only set on named, non-composite case studies. */
+  customerUrl?: string
+  /** Person we can attribute on-the-record (named customers only). */
+  attributedTo?: { name: string; role: string }
+  /** Surface this study first on the index. */
+  featured?: boolean
   body: CaseStudyBlock[]
 }
 
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: 'trg-apparel',
+    customer: 'TRG Apparel',
+    customerType: 'Apparel manufacturer',
+    tagline: 'Six trackers, ten years, gone in three months.',
+    excerpt:
+      'TRG Apparel — a multi-country apparel manufacturer — replaced six legacy trackers built up over a decade with a single Atlas tenant. Their customers see status under their own brand. TRG sees operations on one screen.',
+    outcome: '6 trackers → 1 platform · branded customer portals · daily “where’s my PO?” calls eliminated',
+    tier: 'Operator',
+    industry: 'Cut-and-sew apparel · multi-country',
+    composite: false,
+    customerUrl: 'https://trgapparel.com',
+    attributedTo: { name: 'Robert', role: 'Owner, TRG Apparel' },
+    featured: true,
+    body: [
+      { type: 'heading', content: 'The situation' },
+      { type: 'paragraph', content: 'Over ten years of growth, TRG had built up six different ways to track the same thing — a purchase order moving through production. Two spreadsheets for two of their largest customers. A homegrown tool for legacy accounts. A weekly status doc emailed out on Mondays. WhatsApp threads with each factory partner. A paper folder system for finished-goods inspections. None of them talked to each other.' },
+      { type: 'paragraph', content: 'Every Monday, someone on the TRG team spent half a day stitching the six sources together into a single status email. Customers didn’t have direct visibility — they had to ask. The “where’s my PO?” calls came in every day.' },
+      { type: 'heading', content: 'What we did' },
+      { type: 'list', content: [
+        'Migrated all six legacy trackers into one Atlas tenant',
+        'Stood up branded customer portals — one per customer — under each customer’s own domain',
+        'Connected TRG’s factory partners in China and Cambodia with mobile-friendly milestone-tracking accounts',
+        'Replaced the Monday status email with a portal customers open whenever they want',
+        'Kept TRG’s existing PO numbering and customer naming conventions — Atlas adapted to the operation, not the other way around',
+      ]},
+      { type: 'pullquote', content: 'Atlas replaced six trackers we’d built over a decade and made the daily “where’s my PO?” calls go away. Three months in, our customers see status under their <em>own brand</em>. We see operations on <em>one screen</em>. Won’t go back.' },
+      { type: 'heading', content: 'The outcome' },
+      { type: 'paragraph', content: 'Within three months, TRG retired all six legacy trackers. The Monday status compilation dropped from a half-day exercise to a fifteen-minute review of exceptions. Customer “where’s my PO?” calls effectively stopped — customers self-serve through their portals now, and the conversations that do happen are about the things that actually need a conversation: rerouting, expediting, change orders.' },
+      { type: 'paragraph', content: 'TRG used the branded portal as part of their pitch on new accounts in the following quarter. The point isn’t just that operations got cleaner — it’s that the customer experience itself became a differentiator. Their customers see TRG’s service through TRG’s brand, on TRG’s domain.' },
+      { type: 'heading', content: 'What’s next' },
+      { type: 'paragraph', content: 'TRG is rolling Atlas out to additional customer portals through 2026, and is the design partner for several Atlas features in development — including deeper analytics, factory-side capacity dashboards, and customer-side approval workflows.' },
+    ],
+  },
   {
     slug: 'apparel-broker-onboarding-portals-fast',
     customer: 'Mid-size apparel broker',
@@ -26,6 +68,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: '6 branded portals · 80% fewer status calls',
     tier: 'Operator',
     industry: 'Performance & athletic apparel',
+    composite: true,
     body: [
       { type: 'heading', content: 'The situation' },
       { type: 'paragraph', content: 'Before Atlas, this broker tracked production across three different systems: an Excel sheet for one big brand, a shared Google Doc for two mid-tier brands, and a homegrown PHP app for the rest. The principal spent two hours every Monday compiling a weekly status update by hand.' },
@@ -53,6 +96,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: '3 factories · 1 platform · mobile factory UX',
     tier: 'Scale',
     industry: 'Cut-and-sew apparel',
+    composite: true,
     body: [
       { type: 'heading', content: 'The situation' },
       { type: 'paragraph', content: 'Three factories. Two countries. Three different tracking systems. The operations director spent every morning chasing status updates across WhatsApp, WeChat, and a custom-built dashboard that nobody on the factory floor used because it was built for desktops.' },
@@ -80,6 +124,7 @@ export const caseStudies: CaseStudy[] = [
     outcome: '200 POs/quarter · zero manual re-keying',
     tier: 'Operator',
     industry: 'Workwear and uniforms',
+    composite: true,
     body: [
       { type: 'heading', content: 'The situation' },
       { type: 'paragraph', content: 'School districts. Athletic programs. Corporate uniform programs. Each one sent POs as PDF attachments in 12 different formats. The intake team spent four hours per day re-keying line items into the production system. Errors at the line-item level cost real money — wrong sizes, wrong quantities, wrong colors.' },
