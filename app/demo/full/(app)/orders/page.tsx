@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { listOrders, listBrands, listBatches } from '@/lib/demo-db'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
+import { getImportedPos } from '@/lib/demo-pos-store'
 import { OrderStatusPill } from '@/components/demo/StatusPill'
 import type { Order, OrderStatus, Batch } from '@/lib/demo-data'
 import { orderStatusLabel } from '@/lib/demo-data'
@@ -29,10 +30,11 @@ export default async function FullDemoOrdersPage({
   searchParams: Promise<SearchParams>
 }) {
   const sp = await searchParams
-  const [allOrders, brands, batchesRaw] = await Promise.all([
+  const [allOrders, brands, batchesRaw, importedPos] = await Promise.all([
     listOrders(),
     listBrands(),
     listBatches(),
+    getImportedPos(),
   ])
   const batches = await loadBatchesWithOverrides(batchesRaw)
   const batchesById = new Map(batches.map((b) => [b.id, b]))
@@ -114,12 +116,12 @@ export default async function FullDemoOrdersPage({
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span
-            className="inline-flex cursor-not-allowed items-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--muted)]"
-            title="PDF upload coming in next round"
+          <Link
+            href="/demo/full/orders/new"
+            className="inline-flex items-center rounded-md bg-[var(--ink)] px-3 py-2 text-xs font-medium text-[var(--cream)] transition hover:opacity-90"
           >
-            + New PO (coming)
-          </span>
+            + New PO (PDF or sample)
+          </Link>
         </div>
       </header>
 
@@ -302,10 +304,59 @@ export default async function FullDemoOrdersPage({
         </div>
       )}
 
+      {importedPos.length > 0 && (
+        <section className="mt-10">
+          <div className="mb-3 flex items-end justify-between">
+            <h2 className="font-display text-lg font-semibold text-[var(--ink)]">
+              Just imported this session
+            </h2>
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">
+              {importedPos.length} · stored in your browser cookie
+            </span>
+          </div>
+          <div className="overflow-hidden rounded-lg border border-[var(--good)]/40 bg-[var(--good)]/5">
+            <table className="w-full text-sm">
+              <thead className="bg-[var(--good)]/10 text-left text-xs uppercase tracking-wider text-[var(--muted)]">
+                <tr>
+                  <th className="px-4 py-3 font-medium">PO</th>
+                  <th className="px-4 py-3 font-medium">Customer</th>
+                  <th className="px-4 py-3 font-medium">Ship by</th>
+                  <th className="px-4 py-3 text-right font-medium">Units</th>
+                  <th className="px-4 py-3 font-medium">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...importedPos].reverse().map((p) => (
+                  <tr key={p.slug} className="border-t border-[var(--good)]/20">
+                    <td className="px-4 py-3">
+                      <Link
+                        href={`/demo/full/orders/imported/${p.slug}`}
+                        className="font-mono text-xs text-[var(--ink)] underline-offset-2 hover:underline"
+                      >
+                        {p.poCode}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-3 text-[var(--ink)]">{p.customerName}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-[var(--muted)]">{p.shipBy}</td>
+                    <td className="px-4 py-3 text-right font-mono text-xs">{p.totalUnits.toLocaleString()}</td>
+                    <td className="px-4 py-3">
+                      <span className="rounded-full bg-[var(--accent)]/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">
+                        {p.source === 'pdf' ? 'Claude · PDF' : p.source === 'sample' ? 'Sample' : 'Manual'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       <p className="mt-6 text-xs text-[var(--muted)]">
-        Click any PO code to drill into the order detail (light-demo view for now). Richer
-        order detail with internal notes, status changes, and factory reassignment lands in a
-        future round.
+        Click any PO code to drill into the order detail. Click &ldquo;+ New PO&rdquo; to import
+        from a PDF (Claude extracts line items if{' '}
+        <code className="font-mono">ANTHROPIC_API_KEY</code> is set; falls back to a sample
+        otherwise).
       </p>
     </div>
   )
