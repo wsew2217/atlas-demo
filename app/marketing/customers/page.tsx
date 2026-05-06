@@ -57,18 +57,40 @@ export default function CustomersPage() {
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[var(--muted)]">
           Kuhler is in early access — we&rsquo;re onboarding select apparel manufacturers and
-          brokers. Customer logos and named case studies will live here as those launches go
-          public. In the meantime, here&rsquo;s the shape of who&rsquo;s with us.
+          brokers — <a
+            href="https://trgapparel.com"
+            target="_blank"
+            rel="noopener"
+            className="text-[var(--ink)] underline-offset-2 hover:underline"
+          >TRG Apparel</a> is our first beta customer; more launching as we go. Logos and
+          named case studies appear here as each launch goes public.
         </p>
       </section>
 
       <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
         <div className="mx-auto w-full max-w-6xl px-6 py-12">
           <p className="text-center font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--muted)]">
-            Customer logos · coming as launches go public
+            Customers · with us
           </p>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-            {Array.from({ length: 5 }).map((_, i) => (
+            <a
+              href="https://trgapparel.com"
+              target="_blank"
+              rel="noopener"
+              className="lift flex h-20 items-center justify-center gap-2.5 rounded-md border border-[var(--ink)] bg-[var(--ink)] transition"
+              aria-label="TRG Apparel — first beta customer"
+            >
+              <span
+                className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--ink)]"
+                style={{ backgroundColor: '#C4953A' }}
+              >
+                <span className="font-mono text-[10px] font-semibold tracking-[0.05em]">TRG</span>
+              </span>
+              <span className="font-display text-[11px] font-semibold tracking-[0.22em] text-[var(--cream)]">
+                TRG APPAREL
+              </span>
+            </a>
+            {Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}
                 className="flex h-20 items-center justify-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)]/60"
@@ -79,6 +101,9 @@ export default function CustomersPage() {
               </div>
             ))}
           </div>
+          <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--muted)]">
+            <span className="text-[var(--accent)]">●</span> First beta customer · more onboarding
+          </p>
         </div>
       </section>
 
@@ -171,32 +196,39 @@ export default function CustomersPage() {
       {/* Testimonial */}
       <section className="border-y border-[var(--border)] bg-[var(--cream)]">
         <div className="mx-auto w-full max-w-4xl px-6 py-20 text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
-            What an early customer said
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+            ● TRG Apparel · First beta customer
           </p>
           <blockquote className="mt-8">
             <p className="font-display text-2xl leading-snug text-[var(--ink)] md:text-3xl lg:text-4xl">
               <span className="text-[var(--accent)]">&ldquo;</span>
-              Atlas replaced 14 Outlook tabs and a shared spreadsheet. We onboarded our first
-              three customers on it in two weeks. The branded portal piece is the hook for{' '}
-              <em className="text-[var(--accent)]">them</em> — but the operator side is the hook
-              for <em className="text-[var(--accent)]">us</em>.
+              Atlas replaced six trackers we&rsquo;d built over a decade and made the daily
+              &ldquo;where&rsquo;s my PO?&rdquo; calls go away. Three months in, our customers
+              see status under their <em className="text-[var(--accent)]">own brand</em>. We see
+              operations on <em className="text-[var(--accent)]">one screen</em>. Won&rsquo;t go
+              back.
               <span className="text-[var(--accent)]">&rdquo;</span>
             </p>
             <footer className="mt-8 flex items-center justify-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--ink)] font-display text-lg text-[var(--cream)]">
-                ◆
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-full font-display text-lg font-semibold"
+                style={{ backgroundColor: '#C4953A', color: '#080808' }}
+              >
+                R
               </div>
               <div className="text-left">
                 <p className="text-sm font-semibold text-[var(--ink)]">
-                  Operations leader · Operator-tier customer
+                  Robert · Owner, TRG Apparel
                 </p>
                 <p className="font-mono text-xs text-[var(--muted)]">
-                  Real customer quote · attribution coming as launches go public
+                  trgapparel.com · Operator-tier customer
                 </p>
               </div>
             </footer>
           </blockquote>
+          <p className="mt-8 text-xs text-[var(--muted)]">
+            Quote drafted with TRG; final wording subject to approval before press kit usage.
+          </p>
         </div>
       </section>
 
