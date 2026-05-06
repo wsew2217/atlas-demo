@@ -8,7 +8,6 @@ export const metadata = {
 }
 
 const upcoming = [
-  { title: 'Customers', body: 'Per-customer SKU catalogs, custom rules, portal configuration, and onboarding workflows.', href: '/demo/full/customers', status: 'coming' as const },
   { title: 'Factory',   body: 'Multi-factory operator view with capacity planning, weekly status reports, and shift handoffs.',   href: '/demo/full/factory',   status: 'coming' as const },
 ]
 
