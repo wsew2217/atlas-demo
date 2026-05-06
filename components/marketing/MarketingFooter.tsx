@@ -1,8 +1,9 @@
 import Link from 'next/link'
 
 const product = [
-  { href: '/product',   label: 'How it works' },
-  { href: '/pricing',   label: 'Pricing' },
+  { href: '/product',         label: 'How it works' },
+  { href: '/pricing',         label: 'Pricing' },
+  { href: '/atlas-vs-erp',    label: 'Atlas vs ERP' },
   { href: 'https://demo.kuhler.com', label: 'Live demo' },
 ]
 
