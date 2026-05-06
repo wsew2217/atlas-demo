@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { RoiCalculator } from '@/components/marketing/RoiCalculator'
 
 export const metadata = {
   title: 'Pricing',
@@ -181,6 +182,22 @@ export default function PricingPage() {
               Talk to us about Enterprise →
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ROI calculator */}
+      <section className="mx-auto w-full max-w-5xl px-6 py-16">
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+          ROI
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] md:text-4xl">
+          Estimate the <span className="italic text-[var(--accent)]">savings.</span>
+        </h2>
+        <p className="mt-3 max-w-2xl text-[var(--muted)]">
+          Time reclaimed from status coordination + auto PO intake. Adjust to your shape.
+        </p>
+        <div className="mt-8">
+          <RoiCalculator />
         </div>
       </section>
 
