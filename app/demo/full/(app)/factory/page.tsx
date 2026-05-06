@@ -151,7 +151,7 @@ export default async function FullDemoFactoryPage() {
                   className="flex items-center justify-between rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-xs"
                 >
                   <Link
-                    href={`/demo/orders/${o.id}`}
+                    href={`/demo/full/orders/${o.id}`}
                     className="font-mono text-[var(--ink)] underline-offset-2 hover:underline"
                   >
                     {o.code}
@@ -247,7 +247,7 @@ export default async function FullDemoFactoryPage() {
                           <td className="px-4 py-3">
                             {order ? (
                               <Link
-                                href={`/demo/orders/${order.id}`}
+                                href={`/demo/full/orders/${order.id}`}
                                 className="font-mono text-xs text-[var(--ink)] underline-offset-2 hover:underline"
                               >
                                 {order.code}

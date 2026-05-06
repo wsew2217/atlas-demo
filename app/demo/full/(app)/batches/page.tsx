@@ -256,7 +256,7 @@ export default async function FullDemoBatchesPage({
                     <td className="px-4 py-3">
                       {order ? (
                         <Link
-                          href={`/demo/orders/${order.id}`}
+                          href={`/demo/full/orders/${order.id}`}
                           className="font-mono text-xs text-[var(--ink)] underline-offset-2 hover:underline"
                         >
                           {order.code}

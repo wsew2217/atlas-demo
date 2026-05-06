@@ -165,7 +165,7 @@ export default async function CustomerDetailPage({
                     >
                       <td className="px-4 py-3">
                         <Link
-                          href={`/demo/orders/${o.id}`}
+                          href={`/demo/full/orders/${o.id}`}
                           className="font-mono text-xs text-[var(--ink)] underline-offset-2 hover:underline"
                         >
                           {o.code}
