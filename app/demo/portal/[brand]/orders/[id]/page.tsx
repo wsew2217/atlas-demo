@@ -11,6 +11,8 @@ import { OrderStatusPill } from '@/components/demo/StatusPill'
 import { MilestoneTimeline } from '@/components/demo/MilestoneTimeline'
 import { MessageThread } from '@/components/demo/MessageThread'
 import { ReplyForm } from '@/components/demo/ReplyForm'
+import { getAttachmentsForBatch } from '@/lib/demo-attachments-store'
+import { AttachmentsPanel } from '@/components/demo/AttachmentsPanel'
 
 export default async function PortalOrderDetail({
   params,
@@ -132,19 +134,18 @@ export default async function PortalOrderDetail({
             </p>
           ) : (
             <div className="space-y-6">
-              {orderBatches.map((b) => (
-                <article
-                  key={b.id}
-                  className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6"
-                >
-                  <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="font-mono text-xs text-[var(--muted)]">
-                      {b.factory} · {b.units.toLocaleString()} units
-                    </p>
-                  </div>
-                  <MilestoneTimeline milestones={b.milestones} />
-                </article>
-              ))}
+              {orderBatches.map((b) => {
+                return (
+                  <BatchCard
+                    key={b.id}
+                    batchId={b.id}
+                    factory={b.factory}
+                    units={b.units}
+                    milestones={b.milestones}
+                    contactName={brand.contact}
+                  />
+                )
+              })}
             </div>
           )}
 
@@ -203,5 +204,37 @@ function Row({
       <dt className="text-[var(--muted)]">{label}</dt>
       <dd className={mono ? 'font-mono text-[var(--ink)]' : 'text-[var(--ink)]'}>{value}</dd>
     </div>
+  )
+}
+
+async function BatchCard({
+  batchId,
+  factory,
+  units,
+  milestones,
+  contactName,
+}: {
+  batchId: string
+  factory: string
+  units: number
+  milestones: Parameters<typeof MilestoneTimeline>[0]['milestones']
+  contactName: string
+}) {
+  const attachments = await getAttachmentsForBatch(batchId)
+  return (
+    <article className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6">
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <p className="font-mono text-xs text-[var(--muted)]">
+          {factory} · {units.toLocaleString()} units
+        </p>
+      </div>
+      <MilestoneTimeline milestones={milestones} />
+      <AttachmentsPanel
+        batchId={batchId}
+        uploadedBy={contactName}
+        attachments={attachments}
+        canRemove={false}
+      />
+    </article>
   )
 }

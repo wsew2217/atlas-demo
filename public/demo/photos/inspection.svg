@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-in" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#FAF7F2"/>
+      <stop offset="1" stop-color="#E8E2D6"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-in)"/>
+  <g stroke="#1A1A1A" stroke-width="1.5" fill="none">
+    <rect x="100" y="80" width="200" height="170" rx="4"/>
+    <line x1="100" y1="115" x2="300" y2="115"/>
+    <circle cx="200" cy="160" r="40"/>
+    <line x1="170" y1="160" x2="190" y2="180" stroke="#5E8C5A" stroke-width="3"/>
+    <line x1="190" y1="180" x2="230" y2="140" stroke="#5E8C5A" stroke-width="3"/>
+    <line x1="120" y1="220" x2="280" y2="220"/>
+    <line x1="120" y1="232" x2="220" y2="232"/>
+  </g>
+  <g fill="#5C5C5C" font-family="ui-monospace, monospace" font-size="9" letter-spacing="1.5">
+    <text x="60" y="60" fill="#B8763D" font-weight="600">QC PHOTO · INSPECTION</text>
+    <text x="60" y="275">Defect rate within tolerance · pass</text>
+  </g>
+</svg>

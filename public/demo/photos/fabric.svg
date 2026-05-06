@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <linearGradient id="bg-fb" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#FAF7F2"/>
+      <stop offset="1" stop-color="#E8E2D6"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-fb)"/>
+  <g stroke="#1A1A1A" stroke-width="1.5" fill="none">
+    <rect x="80" y="100" width="240" height="40" rx="2"/>
+    <rect x="70" y="150" width="260" height="40" rx="2"/>
+    <rect x="90" y="200" width="220" height="40" rx="2"/>
+    <line x1="100" y1="100" x2="100" y2="140" stroke="#B8763D"/>
+    <line x1="120" y1="100" x2="120" y2="140" stroke="#B8763D"/>
+    <line x1="140" y1="100" x2="140" y2="140" stroke="#B8763D"/>
+    <line x1="160" y1="100" x2="160" y2="140" stroke="#B8763D"/>
+  </g>
+  <g fill="#5C5C5C" font-family="ui-monospace, monospace" font-size="9" letter-spacing="1.5">
+    <text x="60" y="60" fill="#B8763D" font-weight="600">QC PHOTO · MATERIALS</text>
+    <text x="60" y="270">Fabric rolls received · lot match verified</text>
+  </g>
+</svg>

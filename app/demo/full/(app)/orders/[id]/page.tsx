@@ -14,6 +14,8 @@ import { InternalNoteForm } from '@/components/demo/InternalNoteForm'
 import { StatusChangeForm } from '@/components/demo/StatusChangeForm'
 import { ReassignFactoryForm } from '@/components/demo/ReassignFactoryForm'
 import { applyLineItemOverrides } from '@/lib/demo-lineitem-store'
+import { getAttachmentsForBatch } from '@/lib/demo-attachments-store'
+import { AttachmentsPanel } from '@/components/demo/AttachmentsPanel'
 import { editLineItemsAction } from '@/app/demo/_actions/edit-line-items'
 import { orderStatusLabel } from '@/lib/demo-data'
 
@@ -47,6 +49,11 @@ export default async function FullDemoOrderDetail({
     getStatusHistoryForOrder(order.id),
   ])
   const orderBatches = await loadBatchesWithOverrides(orderBatchesRaw)
+  const attachmentsByBatch = new Map(
+    await Promise.all(
+      orderBatches.map(async (b) => [b.id, await getAttachmentsForBatch(b.id)] as const),
+    ),
+  )
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-10">
@@ -244,6 +251,11 @@ export default async function FullDemoOrderDetail({
                       </div>
                     </div>
                     <MilestoneTimeline milestones={b.milestones} />
+                    <AttachmentsPanel
+                      batchId={b.id}
+                      uploadedBy={MANUFACTURER_NAME}
+                      attachments={attachmentsByBatch.get(b.id) ?? []}
+                    />
                   </article>
                 ))}
               </div>
