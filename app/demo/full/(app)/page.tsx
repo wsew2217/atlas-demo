@@ -8,7 +8,6 @@ export const metadata = {
 }
 
 const upcoming = [
-  { title: 'Batches',   body: 'Cross-factory batch management with allocation, capacity, QC photos, and ship tracking.', href: '/demo/full/batches',   status: 'coming' as const },
   { title: 'Customers', body: 'Per-customer SKU catalogs, custom rules, portal configuration, and onboarding workflows.', href: '/demo/full/customers', status: 'coming' as const },
   { title: 'Factory',   body: 'Multi-factory operator view with capacity planning, weekly status reports, and shift handoffs.',   href: '/demo/full/factory',   status: 'coming' as const },
 ]
@@ -64,6 +63,27 @@ export default async function FullDemoDashboardPage() {
                 <p className="mt-2 text-sm text-[var(--muted)]">
                   Full PO list with filter, search, sort, and drill-down. {orders.length} POs in the
                   system across {brands.length} customers.
+                </p>
+              </div>
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
+                Open →
+              </span>
+            </Link>
+
+            <Link
+              href="/demo/full/batches"
+              className="lift flex items-center justify-between rounded-lg border border-[var(--accent)]/40 bg-[var(--surface)] p-5"
+            >
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-[var(--accent)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--cream)]">
+                    Live
+                  </span>
+                  <h3 className="font-display text-xl font-semibold text-[var(--ink)]">Batches</h3>
+                </div>
+                <p className="mt-2 text-sm text-[var(--muted)]">
+                  Cross-factory batch view with filters by factory, customer, and status. Advance
+                  milestones from this view; updates propagate to orders and portals.
                 </p>
               </div>
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
