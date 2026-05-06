@@ -77,6 +77,19 @@ export default function ProductPage() {
         </p>
       </section>
 
+      {/* Workflow diagram */}
+      <section className="mx-auto w-full max-w-6xl px-6 pb-20">
+        <div className="mb-6">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
+            Architecture
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold leading-tight text-[var(--ink)] md:text-3xl">
+            From PDF to packed, <span className="italic text-[var(--accent)]">on one platform.</span>
+          </h2>
+        </div>
+        <WorkflowDiagram />
+      </section>
+
       <section className="mx-auto w-full max-w-5xl px-6 pb-20">
         <div className="space-y-10">
           {features.map((f) => (

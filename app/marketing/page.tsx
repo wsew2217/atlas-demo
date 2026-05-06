@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { AnimatedDashboardPreview } from '@/components/marketing/AnimatedDashboardPreview'
+import { CapabilityIcon } from '@/components/marketing/CapabilityIcon'
 
 export const metadata = {
   title: 'Kuhler — Operational software for apparel manufacturers',
@@ -10,16 +11,19 @@ export const metadata = {
 const capabilities = [
   {
     eyebrow: '01',
+    icon: 'intake' as const,
     title: 'Purchase orders, parsed.',
     body: 'PDFs in. Structured POs out. Line items, ship-to, dates — sortable, queryable, exportable. No more re-keying email attachments at midnight.',
   },
   {
     eyebrow: '02',
+    icon: 'batches' as const,
     title: 'Batches and milestones.',
     body: 'Track every cut, sew, and pack milestone across factories. Buyers see what they need. Factories see what they need. Nobody waits on email.',
   },
   {
     eyebrow: '03',
+    icon: 'portals' as const,
     title: 'White-labeled per customer.',
     body: 'Atlas runs under each of your customers’ own domains, with their own brand. They see them. They never see us. You leave whenever you want.',
   },
@@ -144,9 +148,12 @@ export default function HomePage() {
                 key={c.title}
                 className="lift rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 hover:border-[var(--accent)]/40"
               >
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--accent)]">
-                  {c.eyebrow}
-                </p>
+                <div className="flex items-center gap-3 text-[var(--accent)]">
+                  <CapabilityIcon variant={c.icon} />
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em]">
+                    {c.eyebrow}
+                  </p>
+                </div>
                 <h3 className="mt-3 text-xl font-semibold text-[var(--ink)]">{c.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{c.body}</p>
               </article>
