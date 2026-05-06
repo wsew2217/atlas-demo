@@ -1,6 +1,7 @@
 import 'server-only'
 import { cookies } from 'next/headers'
 import type { Batch, MilestoneState } from './demo-data'
+import { getBatchFactoryOverrides } from './demo-batch-factory-store'
 
 const COOKIE = 'demo-milestones-v2'
 const MAX_OVERRIDES = 100
@@ -75,6 +76,14 @@ export function applyMilestoneOverridesToBatch(
 }
 
 export async function loadBatchesWithOverrides(batches: Batch[]): Promise<Batch[]> {
-  const overrides = await getMilestoneOverrides()
-  return batches.map((b) => applyMilestoneOverridesToBatch(b, overrides))
+  const [milestoneOverrides, factoryOverrides] = await Promise.all([
+    getMilestoneOverrides(),
+    getBatchFactoryOverrides(),
+  ])
+  const factoryByBatchId = new Map(factoryOverrides.map((o) => [o.batchId, o.factory]))
+  return batches.map((b) => {
+    const withMilestones = applyMilestoneOverridesToBatch(b, milestoneOverrides)
+    const factoryOverride = factoryByBatchId.get(b.id)
+    return factoryOverride ? { ...withMilestones, factory: factoryOverride } : withMilestones
+  })
 }

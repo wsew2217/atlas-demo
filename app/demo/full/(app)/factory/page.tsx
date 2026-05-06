@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { listBatches, getOrderForBatch, listOrders, listBrands } from '@/lib/demo-db'
 import { loadBatchesWithOverrides } from '@/lib/demo-batch-store'
 import { AdvanceMilestoneButton } from '@/components/demo/AdvanceMilestoneButton'
+import { AssignFactoryForm } from '@/components/demo/AssignFactoryForm'
 import type { Batch, Order, Brand } from '@/lib/demo-data'
 
 export const metadata = {

@@ -12,6 +12,9 @@ import { ReplyForm } from '@/components/demo/ReplyForm'
 import { InternalNotesThread } from '@/components/demo/InternalNotesThread'
 import { InternalNoteForm } from '@/components/demo/InternalNoteForm'
 import { StatusChangeForm } from '@/components/demo/StatusChangeForm'
+import { ReassignFactoryForm } from '@/components/demo/ReassignFactoryForm'
+import { applyLineItemOverrides } from '@/lib/demo-lineitem-store'
+import { editLineItemsAction } from '@/app/demo/_actions/edit-line-items'
 import { orderStatusLabel } from '@/lib/demo-data'
 
 export const metadata = {
@@ -23,13 +26,18 @@ const MANUFACTURER_NAME = 'Carter Webb'
 
 export default async function FullDemoOrderDetail({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ edit?: string }>
 }) {
-  const { id } = await params
+  const [{ id }, sp] = await Promise.all([params, searchParams])
   const orderRaw = await getOrder(id)
   if (!orderRaw) notFound()
-  const order = await applyStatusOverride(orderRaw)
+  const orderWithStatus = await applyStatusOverride(orderRaw)
+  const lineItems = await applyLineItemOverrides(orderWithStatus.lineItems)
+  const order = { ...orderWithStatus, lineItems, totalUnits: lineItems.reduce((sum, li) => sum + li.units, 0) }
+  const isEditing = sp.edit === 'lineitems'
 
   const [brand, orderBatchesRaw, orderMessages, internalNotes, statusHistory] = await Promise.all([
     getBrand(order.brandSlug),
@@ -75,47 +83,102 @@ export default async function FullDemoOrderDetail({
           <div>
             <div className="mb-3 flex items-center justify-between gap-2">
               <h2 className="text-lg font-semibold text-[var(--ink)]">Line items</h2>
-              <span
-                className="cursor-not-allowed font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]"
-                title="Line item editing coming next round"
-              >
-                ✎ edit (coming)
-              </span>
+              {!isEditing ? (
+                <Link
+                  href={`/demo/full/orders/${order.id}?edit=lineitems`}
+                  className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-xs text-[var(--ink)] transition hover:bg-[var(--cream)]"
+                >
+                  ✎ Edit units
+                </Link>
+              ) : (
+                <Link
+                  href={`/demo/full/orders/${order.id}`}
+                  className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)] hover:text-[var(--ink)]"
+                >
+                  Cancel
+                </Link>
+              )}
             </div>
-            <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)]">
-              <table className="w-full text-sm">
-                <thead className="bg-[var(--cream)] text-left text-xs uppercase tracking-wider text-[var(--muted)]">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">SKU</th>
-                    <th className="px-4 py-3 font-medium">Description</th>
-                    <th className="px-4 py-3 font-medium">Color</th>
-                    <th className="px-4 py-3 font-medium">Size</th>
-                    <th className="px-4 py-3 font-medium text-right">Units</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.lineItems.map((li) => (
-                    <tr key={li.id} className="border-t border-[var(--border)]">
-                      <td className="px-4 py-3 font-mono text-xs">{li.sku}</td>
-                      <td className="px-4 py-3">{li.description}</td>
-                      <td className="px-4 py-3 text-[var(--muted)]">{li.color}</td>
-                      <td className="px-4 py-3 font-mono text-xs">{li.size}</td>
-                      <td className="px-4 py-3 text-right font-mono text-xs">{li.units.toLocaleString()}</td>
+            {isEditing ? (
+              <form action={editLineItemsAction.bind(null, order.id)} className="overflow-hidden rounded-lg border border-[var(--accent)]/40 bg-[var(--surface)]">
+                <table className="w-full text-sm">
+                  <thead className="bg-[var(--cream)] text-left text-xs uppercase tracking-wider text-[var(--muted)]">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">SKU</th>
+                      <th className="px-4 py-3 font-medium">Description</th>
+                      <th className="px-4 py-3 font-medium">Color</th>
+                      <th className="px-4 py-3 font-medium">Size</th>
+                      <th className="px-4 py-3 font-medium text-right">Units</th>
                     </tr>
-                  ))}
-                </tbody>
-                <tfoot className="bg-[var(--cream)]">
-                  <tr className="border-t border-[var(--border)]">
-                    <td colSpan={4} className="px-4 py-3 text-right text-xs uppercase tracking-wider text-[var(--muted)]">
-                      Total
-                    </td>
-                    <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-[var(--ink)]">
-                      {order.totalUnits.toLocaleString()}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {order.lineItems.map((li) => (
+                      <tr key={li.id} className="border-t border-[var(--border)]">
+                        <td className="px-4 py-3 font-mono text-xs">{li.sku}</td>
+                        <td className="px-4 py-3">{li.description}</td>
+                        <td className="px-4 py-3 text-[var(--muted)]">{li.color}</td>
+                        <td className="px-4 py-3 font-mono text-xs">{li.size}</td>
+                        <td className="px-4 py-3 text-right">
+                          <input
+                            type="number"
+                            name={`units-${li.id}`}
+                            defaultValue={li.units}
+                            min={0}
+                            className="w-24 rounded-md border border-[var(--accent)]/40 bg-[var(--cream)] px-2 py-1 text-right font-mono text-xs text-[var(--ink)] outline-none focus:border-[var(--accent)] focus:bg-[var(--surface)]"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] bg-[var(--accent)]/5 px-4 py-3">
+                  <p className="text-xs text-[var(--muted)]">
+                    Editing posts an internal note with the diff. Customer-visible totals update too.
+                  </p>
+                  <button
+                    type="submit"
+                    className="rounded-md bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface)]">
+                <table className="w-full text-sm">
+                  <thead className="bg-[var(--cream)] text-left text-xs uppercase tracking-wider text-[var(--muted)]">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">SKU</th>
+                      <th className="px-4 py-3 font-medium">Description</th>
+                      <th className="px-4 py-3 font-medium">Color</th>
+                      <th className="px-4 py-3 font-medium">Size</th>
+                      <th className="px-4 py-3 font-medium text-right">Units</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.lineItems.map((li) => (
+                      <tr key={li.id} className="border-t border-[var(--border)]">
+                        <td className="px-4 py-3 font-mono text-xs">{li.sku}</td>
+                        <td className="px-4 py-3">{li.description}</td>
+                        <td className="px-4 py-3 text-[var(--muted)]">{li.color}</td>
+                        <td className="px-4 py-3 font-mono text-xs">{li.size}</td>
+                        <td className="px-4 py-3 text-right font-mono text-xs">{li.units.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot className="bg-[var(--cream)]">
+                    <tr className="border-t border-[var(--border)]">
+                      <td colSpan={4} className="px-4 py-3 text-right text-xs uppercase tracking-wider text-[var(--muted)]">
+                        Total
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono text-sm font-semibold text-[var(--ink)]">
+                        {order.totalUnits.toLocaleString()}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            )}
           </div>
 
           {/* Customer-visible conversation */}
@@ -177,12 +240,7 @@ export default async function FullDemoOrderDetail({
                         <p className="font-mono text-xs text-[var(--muted)]">
                           {b.units.toLocaleString()} units · {b.factory}
                         </p>
-                        <span
-                          className="cursor-not-allowed rounded-md border border-dashed border-[var(--border)] bg-[var(--cream)] px-2.5 py-1 text-xs text-[var(--muted)]"
-                          title="Factory reassignment coming next round"
-                        >
-                          Reassign factory (coming)
-                        </span>
+                        <ReassignFactoryForm batchId={b.id} currentFactory={b.factory} />
                       </div>
                     </div>
                     <MilestoneTimeline milestones={b.milestones} />
