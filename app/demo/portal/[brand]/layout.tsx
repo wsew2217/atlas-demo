@@ -38,8 +38,18 @@ export default async function PortalLayout({
             >
               Orders
             </Link>
-            <span className="rounded-md px-3 py-1.5 text-[var(--muted)]">Updates</span>
-            <span className="rounded-md px-3 py-1.5 text-[var(--muted)]">Account</span>
+            <Link
+              href={`/demo/portal/${brand.slug}/updates`}
+              className="rounded-md px-3 py-1.5 text-[var(--ink)] transition hover:bg-[var(--ink)]/5"
+            >
+              Updates
+            </Link>
+            <Link
+              href={`/demo/portal/${brand.slug}/account`}
+              className="rounded-md px-3 py-1.5 text-[var(--ink)] transition hover:bg-[var(--ink)]/5"
+            >
+              Account
+            </Link>
           </nav>
         </div>
       </header>

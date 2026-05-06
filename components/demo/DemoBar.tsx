@@ -7,13 +7,15 @@ const links = [
   { href: '/demo',                   label: 'Manufacturer admin' },
   { href: '/demo/portal/summit',     label: 'Summit Athletics' },
   { href: '/demo/portal/meridian',   label: 'Meridian Apparel' },
-  { href: '/demo/factory',           label: 'Factory · Plant A' },
+  { href: '/demo/factory',           label: 'Plant A factory' },
+  { href: '/demo/factory/plant-b',   label: 'Plant B factory' },
 ]
 
 export function DemoBar() {
   const pathname = usePathname() ?? ''
 
   const activeHref =
+    pathname.startsWith('/demo/factory/plant-b') ? '/demo/factory/plant-b' :
     pathname.startsWith('/demo/factory')         ? '/demo/factory' :
     pathname.startsWith('/demo/portal/meridian') ? '/demo/portal/meridian' :
     pathname.startsWith('/demo/portal/summit')   ? '/demo/portal/summit'   :
