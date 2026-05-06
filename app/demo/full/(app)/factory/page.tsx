@@ -128,39 +128,37 @@ export default async function FullDemoFactoryPage() {
       {/* Pending allocations */}
       {pendingAllocations.length > 0 && (
         <section className="mb-8 rounded-lg border border-[var(--accent)]/40 bg-[var(--accent)]/5 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
-                Awaiting factory allocation
-              </p>
-              <p className="mt-1 text-sm text-[var(--ink)]">
-                {pendingAllocations.length} {pendingAllocations.length === 1 ? 'PO' : 'POs'} ·{' '}
-                {pendingUnits.toLocaleString()} units pending. Assign each one to a facility to
-                start production.
-              </p>
-            </div>
-            <span className="inline-flex cursor-not-allowed items-center rounded-md border border-dashed border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--muted)]">
-              Assign factory (coming)
-            </span>
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--accent)]">
+              Awaiting factory allocation
+            </p>
+            <p className="mt-1 text-sm text-[var(--ink)]">
+              {pendingAllocations.length} {pendingAllocations.length === 1 ? 'PO' : 'POs'} ·{' '}
+              {pendingUnits.toLocaleString()} units pending. Pick a facility and click Assign —
+              status flips to in-production and an auto-update posts to the customer&rsquo;s portal.
+            </p>
           </div>
-          <ul className="mt-4 space-y-1.5">
+          <ul className="mt-4 space-y-2">
             {pendingAllocations.map((o) => {
               const brand = brandsBySlug.get(o.brandSlug)
               return (
                 <li
                   key={o.id}
-                  className="flex items-center justify-between rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-xs"
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
                 >
-                  <Link
-                    href={`/demo/full/orders/${o.id}`}
-                    className="font-mono text-[var(--ink)] underline-offset-2 hover:underline"
-                  >
-                    {o.code}
-                  </Link>
-                  <span className="text-[var(--muted)]">{brand?.name ?? o.brandSlug}</span>
-                  <span className="text-[var(--muted)]">{o.lineItems[0]?.description ?? '—'}</span>
-                  <span className="font-mono text-[var(--muted)]">{o.totalUnits.toLocaleString()} units</span>
-                  <span className="font-mono text-[var(--muted)]">ship by {o.shipBy}</span>
+                  <div className="flex flex-wrap items-center gap-3 text-xs">
+                    <Link
+                      href={`/demo/full/orders/${o.id}`}
+                      className="font-mono text-[var(--ink)] underline-offset-2 hover:underline"
+                    >
+                      {o.code}
+                    </Link>
+                    <span className="text-[var(--muted)]">{brand?.name ?? o.brandSlug}</span>
+                    <span className="text-[var(--muted)]">{o.lineItems[0]?.description ?? '—'}</span>
+                    <span className="font-mono text-[var(--muted)]">{o.totalUnits.toLocaleString()} units</span>
+                    <span className="font-mono text-[var(--muted)]">ship by {o.shipBy}</span>
+                  </div>
+                  <AssignFactoryForm orderId={o.id} />
                 </li>
               )
             })}
