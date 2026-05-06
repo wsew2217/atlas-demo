@@ -133,7 +133,7 @@ export default function HomePage() {
       </section>
 
       {/* Capabilities */}
-      <section className="border-y border-[var(--border)] bg-[var(--surface)]/40">
+      <section className="fabric-bg border-y border-[var(--border)]">
         <div className="mx-auto w-full max-w-6xl px-6 py-20">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--muted)]">
             What it does
