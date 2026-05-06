@@ -7,16 +7,22 @@ export default clerkMiddleware(async (auth, request) => {
   const hostName = host.split(':')[0].toLowerCase()
   const isLocalhost = hostName === 'localhost' || hostName === '127.0.0.1'
 
+  const { pathname } = request.nextUrl
+
+  // API routes are surface-agnostic — accessible from every host without rewriting.
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
+
   const hostSurface = resolveSurface(host)
   if (!hostSurface) {
     return new NextResponse(`Unknown host: ${host}`, { status: 404 })
   }
-
-  const { pathname } = request.nextUrl
   const explicitSurface =
     pathname === '/marketing' || pathname.startsWith('/marketing/') ? 'marketing' :
     pathname === '/demo' || pathname.startsWith('/demo/') ? 'demo' :
     null
+  void hostSurface
 
   if (explicitSurface && explicitSurface !== hostSurface && !isLocalhost) {
     return new NextResponse('Not found', { status: 404 })
