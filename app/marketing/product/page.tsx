@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { WorkflowDiagram } from '@/components/marketing/WorkflowDiagram'
 
 export const metadata = {
   title: 'Product · How Atlas works',
