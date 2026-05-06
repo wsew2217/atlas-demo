@@ -39,10 +39,6 @@ const customRulesByBrand: Record<string, { rule: string; detail: string }[]> = {
   ],
 }
 
-const skuCounts: Record<string, number> = {
-  summit: 47,
-  meridian: 23,
-}
 
 export default async function CustomerDetailPage({
   params,
@@ -75,7 +71,8 @@ export default async function CustomerDetailPage({
   )
 
   const rules = customRulesByBrand[slug] ?? []
-  const skus = skuCounts[slug] ?? 0
+  const uniqueSkus = new Set(brandOrders.flatMap((o) => o.lineItems.map((li) => li.sku))).size
+  const productFamilies = new Set(brandOrders.flatMap((o) => o.lineItems.map((li) => li.description))).size
   const domain = deriveDomain(brand.contactEmail)
 
   return (
@@ -219,22 +216,25 @@ export default async function CustomerDetailPage({
             </p>
           </div>
 
-          {/* SKU catalog stub */}
+          {/* SKU catalog */}
           <div>
             <h2 className="mb-3 text-lg font-semibold text-[var(--ink)]">SKU catalog</h2>
             <article className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="font-display text-2xl font-semibold text-[var(--ink)]">
-                    {skus} SKUs
+                    {uniqueSkus} SKUs
                   </p>
                   <p className="mt-1 text-xs text-[var(--muted)]">
-                    Last updated 2026-04-30 · imported via CSV
+                    Across {productFamilies} product {productFamilies === 1 ? 'family' : 'families'} · derived from order history
                   </p>
                 </div>
-                <span className="inline-flex cursor-not-allowed items-center rounded-md border border-dashed border-[var(--border)] bg-[var(--cream)] px-3 py-1.5 text-xs text-[var(--muted)]">
-                  Open catalog (coming)
-                </span>
+                <Link
+                  href={`/demo/full/customers/${brand.slug}/skus`}
+                  className="inline-flex items-center rounded-md bg-[var(--ink)] px-4 py-2 text-sm font-medium text-[var(--cream)] transition hover:opacity-90"
+                >
+                  Open catalog →
+                </Link>
               </div>
             </article>
           </div>
